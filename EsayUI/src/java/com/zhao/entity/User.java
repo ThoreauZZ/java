@@ -1,6 +1,5 @@
 package com.zhao.entity;
 
-import org.springframework.web.servlet.DispatcherServlet;
 
 public class User {
 	private String username;
@@ -17,5 +16,4 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }

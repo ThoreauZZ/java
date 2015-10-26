@@ -40,6 +40,11 @@
 		<property name="url" value="${jdbc.url}">
 		</property>
 	</bean>
+	
+	<!-- 定义SqlSessionFactoryBean，去创建 SqlSessionFactory-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="template" />
+	</bean>
 
 	<!-- SpringMVC RequestMappingHandlderMapping-->
 	<mvc:annotation-driven/>
