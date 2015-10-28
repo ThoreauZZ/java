@@ -1,4 +1,4 @@
-package com.zhao.entity;
+package com.zhao.esayui.domain;
 
 
 public class User {
