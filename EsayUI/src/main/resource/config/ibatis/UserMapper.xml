@@ -4,8 +4,8 @@
 
 <mapper namespace="com.zhao.esayui.persistence.UserMapper">
 
-	<select id="getUserByID" parameterType="int" resultType="User">
-		SELECT * FROM user WHERE id=#id#
+	<select id="getUserByName" parameterType="string" resultType="com.zhao.esayui.domain.User">
+		SELECT * FROM User WHERE username=#{name}
 	</select>
 
 </mapper>

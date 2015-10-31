@@ -35,7 +35,7 @@
 	</bean>
 
 
-	<context:component-scan base-package="com.zhao.esayui.persistence" />
+	<context:component-scan base-package="com.zhao.esayui" />
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -43,12 +43,16 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="org.mybatis.jpetstore.persistence" />
+		<property name="basePackage" value="com.zhao.esayui.persistence" />
+		<!-- 自动注入sqlsessionfactory -->
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="DataSource" />
-		<property name="typeAliasesPackage" value="com.zhao.esayui.domain" />
+	    <property name="typeAliasesPackage" value="com.zhao.esayui.domain" />
+		<property name="mapperLocations" 
+			value="classpath:config/ibatis/*.xml">
+		</property>
 	</bean>
 
 

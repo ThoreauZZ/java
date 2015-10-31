@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import com.zhao.esayui.domain.User;
 import com.zhao.esayui.persistence.UserMapper;
 import com.zhao.esayui.service.UserService;
-
+@Service("userService")
 public class UserServiceImpl implements UserService{
 	
 	private UserMapper userMapper;
 
-	public User getUserByID(int id) {
-		return userMapper.getUserByID(id);
+	public User getUserByName(String name) {
+		return userMapper.getUserByName(name);
 	}
 	
 }
