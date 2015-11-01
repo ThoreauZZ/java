@@ -13,10 +13,9 @@ public class TestApplication {
 		// 实例化Spring容器
 		ApplicationContext ac = new ClassPathXmlApplicationContext(conf);
 		System.out.println(ac);
-		
-//		SqlSessionFactory sf = ac.getBean(
-//				"sqlSessionFactory",SqlSessionFactory.class);
-//		System.out.println(sf);
+		/*
+		 * 有时候bean注入错误，找不到对应bean，可以使用该方法列出spring的所有bean。
+		 */
 		String[] strs = ac.getBeanDefinitionNames();
 		for(String str:strs){
 			System.out.println(str);
