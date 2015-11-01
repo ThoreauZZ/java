@@ -18,7 +18,7 @@
 </servlet>
 <servlet-mapping>
 	<servlet-name>springmvc</servlet-name>
-	<url-pattern>*.form</url-pattern>
+	<url-pattern>*.htm</url-pattern>
 </servlet-mapping>
 
 

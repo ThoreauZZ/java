@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
 	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/icon.css" type="text/css">
 	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/default/easyui.css" type="text/css">
+	<script type="text/javascript" src="../js/global.js"></script>
 	<script type="text/javascript" charset="utf-8">
 		var loginAndRegDialog;//全局变量。
 		$(function(){
@@ -17,15 +18,23 @@
 				buttons:[{text:'注册',handler:function(){
 						console.info("用户注册");
 						$.ajax({
-							url:'useController.do?login',
+							url:basePath+"/user/regist.htm",
 							data:{
-								name:$('#loginRegForm input[name=username]').val(),
+								username:$('#loginRegForm input[name=username]').val(),
 								password:$('#loginRegForm input[name=password]').val()},
 							cache:false,
 							dataType:'json',
 							success:function(r){
-								console.info(r.msg);
-							}
+								if(result.status=="0"){//成功
+				                      //返回登录状态
+				                      $("#back").click();//触发返回按钮的单击
+				                   }else if(result.status=="1"){//用户名已注册过
+				                      $("#warning_1").show();//显示提示信息的div
+				                   }
+							},
+							error:function(){
+				                alert("注册错误,稍后重试");
+				            }
 						});
 				}},
 				         {text:'登陆',handler:function(){

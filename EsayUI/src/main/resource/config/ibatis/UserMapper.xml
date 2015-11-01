@@ -4,8 +4,10 @@
 
 <mapper namespace="com.zhao.esayui.persistence.UserMapper">
 
-	<select id="getUserByName" parameterType="string" resultType="com.zhao.esayui.domain.User">
+	<select id="getUserByName" parameterType="string" resultType="User">
 		SELECT * FROM User WHERE username=#{name}
 	</select>
-
+	<insert id ="saveUser" parameterType="User">
+		INSERT INTO User (id,username, password) VALUES (#{id}, #{username}, #{password});
+	</insert>
 </mapper>

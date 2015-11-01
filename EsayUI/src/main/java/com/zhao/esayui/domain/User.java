@@ -1,13 +1,7 @@
 package com.zhao.esayui.domain;
 
 public class User {
-	private int id;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	private String id;
 	private String username;
 	private String password;
 	public String getUsername() {
@@ -21,5 +15,11 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 }

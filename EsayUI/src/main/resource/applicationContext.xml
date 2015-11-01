@@ -54,8 +54,16 @@
 			value="classpath:config/ibatis/*.xml">
 		</property>
 	</bean>
-
-
+	<!-- 注解事务管理 -->
+	<bean id="txManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="DataSource">
+		</property>
+	</bean>
+	<!-- 开启事务注解@Transactional配置 -->
+	<tx:annotation-driven 
+		transaction-manager="txManager"/>
+	<!--  
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/">
@@ -63,4 +71,5 @@
 		<property name="suffix" value=".jsp">
 		</property>
 	</bean>
+	-->
 </beans>
