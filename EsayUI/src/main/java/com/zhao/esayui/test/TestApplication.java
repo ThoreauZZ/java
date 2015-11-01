@@ -1,18 +1,25 @@
 package com.zhao.esayui.test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.zhao.esayui.domain.User;
 import com.zhao.esayui.persistence.UserMapper;
 
+
 public class TestApplication {
+	/*
+	 * 使用logback,但这儿引入的包是slf4j。
+	 */
+	private static Logger log = LoggerFactory.getLogger(TestApplication.class);
 	public static void main(String[] args) {
 		
 		String conf = "applicationContext.xml";
 		// 实例化Spring容器
 		ApplicationContext ac = new ClassPathXmlApplicationContext(conf);
-		System.out.println(ac);
+		log.info("实例化spring容器",ac);
 		/*
 		 * 有时候bean注入错误，找不到对应bean，可以使用该方法列出spring的所有bean。
 		 */
