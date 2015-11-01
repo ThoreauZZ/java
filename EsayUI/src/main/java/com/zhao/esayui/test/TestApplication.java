@@ -23,8 +23,8 @@ public class TestApplication {
 		}
 		UserMapper userDao = 
 				ac.getBean("userMapper",UserMapper.class);
-		User user = userDao.getUserByName("赵州");
-		System.out.println(user.getId()+user.getUsername()+user.getPassword());
+		User user = userDao.getUserByName("zz");
+		System.out.println("id:"+user.getId()+" 姓名："+" 密码："+user.getUsername()+user.getPassword());
 		
 	}
 }
