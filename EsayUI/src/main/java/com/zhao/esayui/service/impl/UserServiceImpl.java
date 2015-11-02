@@ -1,5 +1,4 @@
 package com.zhao.esayui.service.impl;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService{
 	public ResultEntity regist(User user) {
 		ResultEntity rs = new ResultEntity();
 		User usre = userMapper.getUserByName(user.getUsername());
-		if(user == null){
+		if(user != null){
 			rs.setStatus("1");
 			rs.setMsg("此用户已经注册");
 			return rs;

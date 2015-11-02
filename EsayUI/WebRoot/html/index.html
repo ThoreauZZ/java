@@ -11,36 +11,40 @@
 	<script type="text/javascript" charset="utf-8">
 		var loginAndRegDialog;//全局变量。
 		$(function(){
-			
-		loginAndRegDialog = $('#loginAndRegDialog').dialog({
+		loginAndRegDialog = $('#loginAndRegDialog').dialog({//--EsayUI--使用dialog对话窗作为登陆窗口
 				closable : false,//去掉关闭按钮
 				modal:true,//背景变灰
-				buttons:[{text:'注册',handler:function(){
+				buttons:[
+				         {text:'注册',handler:function(){
 						console.info("用户注册");
 						$.ajax({
+							type:'post',
 							url:basePath+"/user/regist.htm",
-							data:{
+							data:$('#loginRegForm').serialize(),//--jQuery--把表单内容字符串话，使下面的表单数据简单化
+								/*{
 								username:$('#loginRegForm input[name=username]').val(),
 								password:$('#loginRegForm input[name=password]').val()},
+								*/
 							cache:false,
 							dataType:'json',
-							success:function(r){
+							success:function(result){
 								if(result.status=="0"){//成功
 				                      //返回登录状态
 				                      $("#back").click();//触发返回按钮的单击
 				                   }else if(result.status=="1"){//用户名已注册过
+				                	   $.messager.alert('提示',result.msg);//--EsayUI--消息组件
 				                      $("#warning_1").show();//显示提示信息的div
 				                   }
 							},
 							error:function(){
-				                alert("注册错误,稍后重试");
+								$.messager.alert('系统错误，请重试');
 				            }
 						});
 				}},
 				         {text:'登陆',handler:function(){
 				        	 console.info("用户登陆");
 				         }}
-				         ]//使用图标数组
+				         ]//--EsayUI--使用图标数组
 			});//使用dialog作为用户登陆界面
 
 		});
