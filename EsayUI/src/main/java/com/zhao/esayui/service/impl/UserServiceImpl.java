@@ -25,10 +25,23 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ResultEntity checkLogin(String username, String password) {
+	public ResultEntity checkLogin(User user) {
 		ResultEntity rs = new ResultEntity();
-		
-		return null;
+		User u = userMapper.getUserByName(user.getUsername());
+		if(u==null){
+			rs.setStatus("2");
+			rs.setMsg("ÓÃ»§²»´æÔÚ");
+			return rs;
+		}
+		if(user.getPassword().equals(u.getPassword())){
+			rs.setStatus("0");
+			rs.setMsg("µÇÂ½");
+			return rs;
+		}else{
+			rs.setStatus("1");
+			rs.setMsg("µÇÂ½Ê§°Ü");
+			return rs;
+		}
 	}
 
 	@Override

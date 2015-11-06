@@ -24,4 +24,10 @@ public class UserController {
 		ResultEntity result = userService.regist(user);
 		return result;
 	}
+	@RequestMapping("/login.htm")
+	@ResponseBody
+	public ResultEntity login(User user){
+		ResultEntity result = userService.checkLogin(user);
+		return result;
+	}
 }

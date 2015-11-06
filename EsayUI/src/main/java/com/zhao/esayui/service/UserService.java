@@ -5,6 +5,6 @@ import com.zhao.esayui.domain.User;
 public interface UserService {
 	
 	public User getUserByName(String id);
-	ResultEntity checkLogin(String username,String password);
+	ResultEntity checkLogin(User user);
 	ResultEntity regist(User user);
 }
