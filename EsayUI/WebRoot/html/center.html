@@ -1,35 +1,43 @@
 
 <script type="text/javascript" charset="utf-8">
-	 var datagrid;
-	$('#datagrid').datagrid({
-		url:basePath+"/user/getUser.htm",
-		title:'保存',
-		iconCls:'icon-save',
-		pagination:true,//分页
-		pageSize:10,
-		pageList:[10,20,30],//可选的每页显示数量
-		fit:true,//宽高自适应外层
-		fitColumns:true,//禁用横向滚动条。
-		norap:true,//表格中多内容显示
-		//idField:'id'//跨页删除等
-		columns:[[{//-----开始编辑表格样式
-			title:'编号',
-			field:'id',
-			width:100,
-		},{
-			title:'姓名',
-			field:'name',
-			width:100,
-		},{
-			title:'密码',
-			field:'password',
-			width:100,
-		}]]
-	}); 
+	var datagrid;
+	$(function() {
+		$('#datagrid').datagrid({
+			url : basePath + "/user/getUsers.htm",
+			title : '保存',
+			height : 300,
+			iconCls : 'icon-save',
+			pagination : true,//分页
+			pageSize : 10,
+			pageList : [ 10, 20, 30 ],//可选的每页显示数量
+			fit : true,//宽高自适应外层,外层也得有宽度，否则会不显示数据
+			fitColumns : true,//禁用横向滚动条。
+			norap : true,//表格中多内容显示折叠
+			striped : true,
+			sortOrder : 'asc',
+			remoteSort : false,//不通过远程服务器排序，默认是true。
+			//idField:'id'//跨页删除等
+			columns : [ [ {//-----开始编辑表格样式
+				title : '编号',
+				field : 'id',
+				width : 100
+			}, {
+				title : '姓名',
+				field : 'username',
+				width : 100,
+				sortable : true
+			}, {
+				title : '密码',
+				field : 'password',
+				width : 100
+			} ] ],
+			loadMsg : '数据加载中,请稍候......'
+		});
+	});
 </script>
-<div class="easyui-tabs" fix="true">
+<div class="easyui-tabs" fit="true" border="false">
 	<div title="用户管理">
-		<table id="datagrid"></table>
+		<table id="datagrid" fit="true" border="false"></table>
 	</div>
 
 </div>

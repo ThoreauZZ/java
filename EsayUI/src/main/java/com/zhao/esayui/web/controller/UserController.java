@@ -1,5 +1,9 @@
 package com.zhao.esayui.web.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -20,7 +24,6 @@ public class UserController {
 	@RequestMapping("/regist.htm")
 	@ResponseBody
 	public ResultEntity regist(User user){
-		System.out.println(userService.getClass().getName());
 		ResultEntity result = userService.regist(user);
 		return result;
 	}
@@ -29,5 +32,13 @@ public class UserController {
 	public ResultEntity login(User user){
 		ResultEntity result = userService.checkLogin(user);
 		return result;
+	}
+	@RequestMapping("/getUsers.htm")
+	@ResponseBody
+	public Map getUsers(int page,int rows){
+		Map<String,Integer> m = new HashMap<String,Integer>();
+		m.put("pageSize", rows);
+		m.put("pageIndex", (page-1)*rows);
+		return  userService.getUserPages(m);
 	}
 }

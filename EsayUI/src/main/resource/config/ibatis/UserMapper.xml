@@ -10,4 +10,10 @@
 	<insert id ="saveUser" parameterType="User">
 		INSERT INTO User (id,username, password) VALUES (#{id}, #{username}, #{password});
 	</insert>
+	<select id="getUserPages" parameterType="map" resultType="User">
+		  select  * from  User limit #{pageIndex},#{pageSize}
+	</select>
+	<select id="getUserTotalRows" resultType="int">
+		select count(*) from User
+	</select>
 </mapper>

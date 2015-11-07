@@ -1,4 +1,8 @@
 package com.zhao.esayui.service.impl;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -35,7 +39,7 @@ public class UserServiceImpl implements UserService{
 		}
 		if(user.getPassword().equals(u.getPassword())){
 			rs.setStatus("0");
-			rs.setMsg("登陆");
+			rs.setMsg("登陆成功");
 			return rs;
 		}else{
 			rs.setStatus("1");
@@ -47,8 +51,8 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public ResultEntity regist(User user) {
 		ResultEntity rs = new ResultEntity();
-		User usre = userMapper.getUserByName(user.getUsername());
-		if(user != null){
+		User u = userMapper.getUserByName(user.getUsername());
+		if(u != null){
 			rs.setStatus("1");
 			rs.setMsg("此用户已经注册");
 			return rs;
@@ -64,6 +68,16 @@ public class UserServiceImpl implements UserService{
 		rs.setStatus("0");
 		rs.setMsg("注册成功");
 		return rs;
+	}
+
+	@Override
+	public Map<String, Object> getUserPages(Map map) {
+		Map<String, Object> m =new HashMap<String, Object>();
+		int total =userMapper.getUserTotalRows();
+		List<User> users= userMapper.getUserPages(map);
+		m.put("total", total);
+		m.put("rows", users);
+		return m;
 	}
 	
 }

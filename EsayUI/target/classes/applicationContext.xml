@@ -54,8 +54,37 @@
 			value="classpath:config/ibatis/*.xml">
 		</property>
 	</bean>
-
-
+	<!-- 对于spring4，json返回给页面特别需要以下配置，注意Jackson2和Jackson1下面的class不一样 
+		还须引入相关jar包：jackson-core,jackson-annotations,jackson-databind(pom只需最后一个就会自动依赖下载！！)
+	-->
+	<bean  
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="mappingJackson2HttpMessageConverter" />  
+            </list>  
+        </property>  
+    </bean>  
+    <bean id="mappingJackson2HttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value>  
+                <value>text/json;charset=UTF-8</value>  
+                <value>application/json;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean> 
+	<!-- 注解事务管理 -->
+	<bean id="txManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="DataSource">
+		</property>
+	</bean>
+	<!-- 开启事务注解@Transactional配置 -->
+	<tx:annotation-driven 
+		transaction-manager="txManager"/>
+	<!--  
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/">
@@ -63,4 +92,5 @@
 		<property name="suffix" value=".jsp">
 		</property>
 	</bean>
+	-->
 </beans>
