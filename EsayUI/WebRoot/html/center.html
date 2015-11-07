@@ -1,0 +1,35 @@
+
+<script type="text/javascript" charset="utf-8">
+	 var datagrid;
+	$('#datagrid').datagrid({
+		url:basePath+"/user/getUser.htm",
+		title:'保存',
+		iconCls:'icon-save',
+		pagination:true,//分页
+		pageSize:10,
+		pageList:[10,20,30],//可选的每页显示数量
+		fit:true,//宽高自适应外层
+		fitColumns:true,//禁用横向滚动条。
+		norap:true,//表格中多内容显示
+		//idField:'id'//跨页删除等
+		columns:[[{//-----开始编辑表格样式
+			title:'编号',
+			field:'id',
+			width:100,
+		},{
+			title:'姓名',
+			field:'name',
+			width:100,
+		},{
+			title:'密码',
+			field:'password',
+			width:100,
+		}]]
+	}); 
+</script>
+<div class="easyui-tabs" fix="true">
+	<div title="用户管理">
+		<table id="datagrid"></table>
+	</div>
+
+</div>
