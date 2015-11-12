@@ -6,44 +6,43 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.zhao.esayui.dao.UserDao;
 import com.zhao.esayui.domain.ResultEntity;
 import com.zhao.esayui.domain.User;
-import com.zhao.esayui.persistence.UserMapper;
 import com.zhao.esayui.service.UserService;
 import com.zhao.esayui.util.MessageUtil;
 /**
- * ÓÃ»§²Ù×÷µÄservice²ã
+ * 
+ * <p></p>
  * @author henry.zhao
- *
+ * @version v1.0 2015å¹´11æœˆ12æ—¥ ä¸‹åˆ2:07:30
  */
 @Service("userService")
-@Transactional
 public class UserServiceImpl implements UserService{
 	@Resource
-	private UserMapper userMapper;
+	private UserDao userDao;
 
 	public User getUserByName(String name) {
-		return userMapper.getUserByName(name);
+		return userDao.getUserByName(name);
 	}
 
 	@Override
 	public ResultEntity checkLogin(User user) {
 		ResultEntity rs = new ResultEntity();
-		User u = userMapper.getUserByName(user.getUsername());
+		User u = userDao.getUserByName(user.getUsername());
 		if(u==null){
 			rs.setStatus("2");
-			rs.setMsg("ÓÃ»§²»´æÔÚ");
+			rs.setMsg("æ­¤ç”¨æˆ·ä¸å­˜åœ¨");
 			return rs;
 		}
 		if(user.getPassword().equals(u.getPassword())){
 			rs.setStatus("0");
-			rs.setMsg("µÇÂ½³É¹¦");
+			rs.setMsg("ç™»é™†æˆåŠŸ");
 			return rs;
 		}else{
 			rs.setStatus("1");
-			rs.setMsg("µÇÂ½Ê§°Ü");
+			rs.setMsg("å¯†ç é”™è¯¯");
 			return rs;
 		}
 	}
@@ -51,30 +50,30 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public ResultEntity regist(User user) {
 		ResultEntity rs = new ResultEntity();
-		User u = userMapper.getUserByName(user.getUsername());
+		User u = userDao.getUserByName(user.getUsername());
 		if(u != null){
 			rs.setStatus("1");
-			rs.setMsg("´ËÓÃ»§ÒÑ¾­×¢²á");
+			rs.setMsg("æ­¤ç”¨æˆ·åè¢«å ç”¨");
 			return rs;
 		}
-		//Éú³ÉÖ÷¼ü
+		//ç”Ÿæˆä¸»é”®
 		String uuid = MessageUtil.getUUID();
 		user.setId(uuid);
-		//ÃÜÂë¼ÓÃÜ
+		//md5åŠ å¯†å¯†ç 
 		String md5_password = MessageUtil.md5(user.getPassword());
 		user.setPassword(md5_password);
-		userMapper.saveUser(user);//²åÈëĞÅÏ¢
+		userDao.saveUser(user);
 		
 		rs.setStatus("0");
-		rs.setMsg("×¢²á³É¹¦");
+		rs.setMsg("æ³¨å†ŒæˆåŠŸï¼");
 		return rs;
 	}
 
 	@Override
 	public Map<String, Object> getUserPages(Map map) {
 		Map<String, Object> m =new HashMap<String, Object>();
-		int total =userMapper.getUserTotalRows();
-		List<User> users= userMapper.getUserPages(map);
+		int total =userDao.getUserTotalRows();
+		List<User> users= userDao.getUserPages(map);
 		m.put("total", total);
 		m.put("rows", users);
 		return m;

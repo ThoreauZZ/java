@@ -1,13 +1,13 @@
-package com.zhao.esayui.persistence;
+package com.zhao.esayui.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import com.zhao.esayui.domain.User;
 
-public interface UserMapper {
+public interface UserDao {
 	User getUserByName(String name);
-	void saveUser(User user);
+	int saveUser(User user);
 	List<User> getUserPages(Map map);
 	int getUserTotalRows();
 }

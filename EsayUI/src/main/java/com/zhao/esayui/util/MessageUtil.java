@@ -9,7 +9,7 @@ import sun.misc.BASE64Encoder;
 
 public class MessageUtil {
 	/**
-	 * °´ÕÕUUIDËã·¨Éú³ÉÒ»¸ö×Ö·û´®
+	 * æŒ‰ç…§UUIDç®—æ³•ç”Ÿæˆä¸€ä¸ªå­—ç¬¦ä¸²
 	 * @return
 	 */
 	public static String getUUID(){
@@ -19,9 +19,9 @@ public class MessageUtil {
 	}
 	
 	/**
-	 * ½«´«ÈëµÄÏûÏ¢½øĞĞmd5¼ÓÃÜ
-	 * ²»¿ÉÄæ
-	 * ÈÎÒâ³¤¶È±äµÈ³¤
+	 * å°†ä¼ å…¥çš„æ¶ˆæ¯è¿›è¡Œmd5åŠ å¯†
+	 * ä¸å¯é€†
+	 * ä»»æ„é•¿åº¦å˜ç­‰é•¿
 	 * @param message
 	 * @return
 	 */
@@ -30,8 +30,8 @@ public class MessageUtil {
 			MessageDigest md = 
 				MessageDigest.getInstance("MD5");
 			byte[] input = message.getBytes();
-			byte[] output = md.digest(input);//½«×Ö½ÚĞÅÏ¢¼ÓÃÜ
-			//ÀûÓÃbase64½«¼ÓÃÜºóµÄ×Ö½ÚĞÅÏ¢×ª³É×Ö·û´®
+			byte[] output = md.digest(input);//å°†å­—èŠ‚ä¿¡æ¯åŠ å¯†
+			//åˆ©ç”¨base64å°†åŠ å¯†åçš„å­—èŠ‚ä¿¡æ¯è½¬æˆå­—ç¬¦ä¸²
 			String str = base64Encode(output);
 			return str;
 		} catch (Exception e) {
@@ -42,16 +42,16 @@ public class MessageUtil {
 	}
 	
 	/**
-	 * ÀûÓÃBase64Ëã·¨½«×Ö½ÚĞÅÏ¢×ª³É×Ö·û´®
+	 * åˆ©ç”¨Base64ç®—æ³•å°†å­—èŠ‚ä¿¡æ¯è½¬æˆå­—ç¬¦ä¸²
 	 * @param input
 	 * @return
-	 * jdk6.0×Ô´øµÄAPI
+	 * jdk6.0è‡ªå¸¦çš„API
 	 */
 	public static String base64Encode1(byte[] input){
 		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(input);
 	}
-	//²ÉÓÃcommons-codec-1.9.jar
+	//é‡‡ç”¨commons-codec-1.9.jar
 	public static String base64Encode(byte[] input){
 		 return Base64.encodeBase64String(input);
 	}

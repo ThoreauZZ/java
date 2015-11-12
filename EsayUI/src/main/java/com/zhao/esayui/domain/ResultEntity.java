@@ -3,9 +3,9 @@ package com.zhao.esayui.domain;
 import java.io.Serializable;
 
 public class ResultEntity implements Serializable{
-	private String status;//×´Ì¬0³É¹¦,1Ê§°Ü
+	private String status;//çŠ¶æ€0æˆåŠŸ,1å¤±è´¥
 	private String msg;
-	private Object data;//Òª´«³öÈ¥µÄÊı¾İ
+	private Object data;//è¦ä¼ å‡ºå»çš„æ•°æ®
 	
 	public Object getData() {
 		return data;

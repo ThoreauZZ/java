@@ -4,7 +4,6 @@
 	$(function() {
 		$('#datagrid').datagrid({
 			url : basePath + "/user/getUsers.htm",
-			title : '保存',
 			height : 300,
 			iconCls : 'icon-save',
 			pagination : true,//分页
@@ -35,9 +34,12 @@
 		});
 	});
 </script>
-<div class="easyui-tabs" fit="true" border="false">
-	<div title="用户管理">
+<div id="" class="easyui-layout" data-options="fit:true,border:false">
+	<div data-options="region:'north',title:'查询条件',border:false" style="height: 160px; overflow: hidden;"></div>
+		<div id="searchForm">
+		
+		</div>
+	<div data-options="region:'center',title:'用户管理',border:false">
 		<table id="datagrid" fit="true" border="false"></table>
 	</div>
-
 </div>

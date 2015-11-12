@@ -5,8 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.zhao.esayui.dao.UserDao;
+import com.zhao.esayui.dao.impl.UserDaoImpl;
 import com.zhao.esayui.domain.User;
-import com.zhao.esayui.persistence.UserMapper;
 
 
 public class TestApplication {
@@ -16,7 +17,7 @@ public class TestApplication {
 	private static Logger log = LoggerFactory.getLogger(TestApplication.class);
 	public static void main(String[] args) {
 		
-		String conf = "applicationContext.xml";
+		String conf = "applicationContext-new.xml";
 		// 实例化Spring容器
 		ApplicationContext ac = new ClassPathXmlApplicationContext(conf);
 		log.info("实例化spring容器",ac);
@@ -27,8 +28,8 @@ public class TestApplication {
 		for(String str:strs){
 			System.out.println(str);
 		}
-		UserMapper userDao = 
-				ac.getBean("userMapper",UserMapper.class);
+		UserDao userDao = 
+				ac.getBean("UserDao",UserDaoImpl.class);
 		User user = userDao.getUserByName("zz");
 		System.out.println("id:"+user.getId()+" 姓名："+" 密码："+user.getUsername()+user.getPassword());
 		
