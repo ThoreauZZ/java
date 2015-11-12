@@ -29,7 +29,7 @@ public class TestApplication {
 			System.out.println(str);
 		}
 		UserDao userDao = 
-				ac.getBean("UserDao",UserDaoImpl.class);
+				ac.getBean("userDao",UserDaoImpl.class);
 		User user = userDao.getUserByName("zz");
 		System.out.println("id:"+user.getId()+" 姓名："+" 密码："+user.getUsername()+user.getPassword());
 		
