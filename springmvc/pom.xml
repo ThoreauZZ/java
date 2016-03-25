@@ -7,7 +7,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springmvc Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+		<springframework>4.2.0.RELEASE</springframework>
+	</properties>
 	<dependencies>
+		<!-- servlet -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.servlet</artifactId>
@@ -21,14 +25,31 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+
+		<!-- spring -->
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.2.0.RELEASE</version>
+			<version>${springframework}</version>
 		</dependency>
+
+		<!-- log -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.1.2</version>
+		</dependency>
+
+		<!-- json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 
 		<dependency>
