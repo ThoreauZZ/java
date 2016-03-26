@@ -1,13 +1,13 @@
 ##spring mvc
-### ÊÓÍ¼½âÎöÆ÷
+### è§†å›¾è§£æå™¨
 
-	`InternalResourceViewResolver`»á°Ñ·µ»ØµÄÊÓÍ¼Ãû³Æ¶¼½âÎöÎªInternalResourceView¶ÔÏó£¬InternalResourceView»á°ÑController´¦ÀíÆ÷·½·¨·µ»ØµÄÄ£ĞÍÊôĞÔ¶¼´æ·Åµ½¶ÔÓ¦µÄrequestÊôĞÔÖĞ£¬È»ºóÍ¨¹ıRequestDispatcherÔÚ·şÎñÆ÷¶Ë°ÑÇëÇóforwordÖØ¶¨Ïòµ½Ä¿±êURL¡£±ÈÈçÔÚInternalResourceViewResolverÖĞ¶¨ÒåÁËprefix=/WEB-INF/£¬suffix=.jsp£¬È»ºóÇëÇóµÄController´¦ÀíÆ÷·½·¨·µ»ØµÄÊÓÍ¼Ãû³ÆÎªtest£¬ÄÇÃ´Õâ¸öÊ±ºòInternalResourceViewResolver¾Í»á°Ñtest½âÎöÎªÒ»¸öInternalResourceView¶ÔÏó£¬ÏÈ°Ñ·µ»ØµÄÄ£ĞÍÊôĞÔ¶¼´æ·Åµ½¶ÔÓ¦µÄHttpServletRequestÊôĞÔÖĞ£¬È»ºóÀûÓÃRequestDispatcherÔÚ·şÎñÆ÷¶Ë°ÑÇëÇóforwordµ½/WEB-INF/test.jsp¡£Õâ¾ÍÊÇInternalResourceViewResolverÒ»¸ö·Ç³£ÖØÒªµÄÌØĞÔ£¬ÎÒÃÇ¶¼ÖªµÀ´æ·ÅÔÚ/WEB-INF/ÏÂÃæµÄÄÚÈİÊÇ²»ÄÜÖ±½ÓÍ¨¹ırequestÇëÇóµÄ·½Ê½ÇëÇóµ½µÄ£¬ÎªÁË°²È«ĞÔ¿¼ÂÇ£¬ÎÒÃÇÍ¨³£»á°ÑjspÎÄ¼ş·ÅÔÚWEB-INFÄ¿Â¼ÏÂ£¬¶øInternalResourceViewÔÚ·şÎñÆ÷¶ËÌø×ªµÄ·½Ê½¿ÉÒÔºÜºÃµÄ½â¾öÕâ¸öÎÊÌâ
+	`InternalResourceViewResolver`ä¼šæŠŠè¿”å›çš„è§†å›¾åç§°éƒ½è§£æä¸ºInternalResourceViewå¯¹è±¡ï¼ŒInternalResourceViewä¼šæŠŠControllerå¤„ç†å™¨æ–¹æ³•è¿”å›çš„æ¨¡å‹å±æ€§éƒ½å­˜æ”¾åˆ°å¯¹åº”çš„requestå±æ€§ä¸­ï¼Œç„¶åé€šè¿‡RequestDispatcheråœ¨æœåŠ¡å™¨ç«¯æŠŠè¯·æ±‚forwordé‡å®šå‘åˆ°ç›®æ ‡URLã€‚æ¯”å¦‚åœ¨InternalResourceViewResolverä¸­å®šä¹‰äº†prefix=/WEB-INF/ï¼Œsuffix=.jspï¼Œç„¶åè¯·æ±‚çš„Controllerå¤„ç†å™¨æ–¹æ³•è¿”å›çš„è§†å›¾åç§°ä¸ºtestï¼Œé‚£ä¹ˆè¿™ä¸ªæ—¶å€™InternalResourceViewResolverå°±ä¼šæŠŠtestè§£æä¸ºä¸€ä¸ªInternalResourceViewå¯¹è±¡ï¼Œå…ˆæŠŠè¿”å›çš„æ¨¡å‹å±æ€§éƒ½å­˜æ”¾åˆ°å¯¹åº”çš„HttpServletRequestå±æ€§ä¸­ï¼Œç„¶ååˆ©ç”¨RequestDispatcheråœ¨æœåŠ¡å™¨ç«¯æŠŠè¯·æ±‚forwordåˆ°/WEB-INF/test.jspã€‚è¿™å°±æ˜¯InternalResourceViewResolverä¸€ä¸ªéå¸¸é‡è¦çš„ç‰¹æ€§ï¼Œæˆ‘ä»¬éƒ½çŸ¥é“å­˜æ”¾åœ¨/WEB-INF/ä¸‹é¢çš„å†…å®¹æ˜¯ä¸èƒ½ç›´æ¥é€šè¿‡requestè¯·æ±‚çš„æ–¹å¼è¯·æ±‚åˆ°çš„ï¼Œä¸ºäº†å®‰å…¨æ€§è€ƒè™‘ï¼Œæˆ‘ä»¬é€šå¸¸ä¼šæŠŠjspæ–‡ä»¶æ”¾åœ¨WEB-INFç›®å½•ä¸‹ï¼Œè€ŒInternalResourceViewåœ¨æœåŠ¡å™¨ç«¯è·³è½¬çš„æ–¹å¼å¯ä»¥å¾ˆå¥½çš„è§£å†³è¿™ä¸ªé—®é¢˜
 ```
 <bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- Ç°×º -->
+		<!-- å‰ç¼€ -->
 		<property name="prefix" value="/WEB-INF/jsp/" />
-		<!-- ºó×º -->
+		<!-- åç¼€ -->
 		<property name="suffix" value=".jsp" />
 	</bean>
 ```
