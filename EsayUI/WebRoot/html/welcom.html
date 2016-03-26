@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>欢迎界面</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">	
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/icon.css" type="text/css">
+	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/default/easyui.css" type="text/css">
+	<script type="text/javascript" src="../js/global.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			//console.info($('#myLayout'));
+			//$('#myLayout').layout();//如果不是使用class加载，需要定义宽高
+			
+		});
+	
+	</script>
+</head>
+<body class="easyui-layout">
+		<!--  
+	    <div region="north" title="North Title" split="true" style="height:100px;"></div>
+	    <div region="south" title="South Title" split="true" style="height:100px;"></div>
+	    -->
+	    <div region="east" iconCls="icon-reload" title="East" split="true" style="width:100px;"></div>
+	    <div region="west" split="true" title="导航菜单" href="menuTree.html" style="width:180px;"></div>
+	    <div region="center" title="center title" href="center.html">
+	</div>
+</body>
+</html>

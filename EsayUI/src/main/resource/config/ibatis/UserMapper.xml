@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhao.esayui.persistence.UserMapper">
+
+	<select id="getUserByName" parameterType="string" resultType="User">
+		SELECT * FROM User WHERE username=#{name}
+	</select>
+	<insert id ="saveUser" parameterType="User">
+		INSERT INTO User (id,username, password,createTime,updateTime) VALUES (#{id}, #{username}, #{password},now(),now());
+	</insert>
+	<select id="getUserPages" parameterType="userPage" resultType="User">
+		  select  id,username,password,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(updateTime,'%Y-%m-%d %H:%i:%s') updateTime from  User 
+		  <if test="username !=null ">  
+		  	where username like CONCAT(CONCAT('%',#{username}),'%')
+		  </if>
+		  <if test="createtimeStart !=null and createtimeStart != ''">  
+		  	 <![CDATA[ AND #{createtimeStart} < createTime ]]>
+		  </if>
+		   <if test="createtimeEnd !=null and createtimeEnd!=''">  
+		  	 <![CDATA[ AND  createTime < #{createtimeEnd}  ]]>
+		  </if>
+		  limit #{pageIndex},#{pageSize}
+	</select>
+	<select id="getUserTotalRows"  resultType="int">
+		select count(*) from User
+	</select>
+	<update id="sql_updateUser" parameterType="User">
+		UPDATE User SET username=#{username}, password= #{password}, updateTime=now() WHERE id=#{id}
+	</update>
+</mapper>

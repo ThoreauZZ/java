@@ -1,0 +1,11 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+    <body>
+        <h3>${user.userName}, 我在使用模版引擎组装html发邮件</h3>
+        <div>
+            Your email address is <a href="mailto:${user.emailAddress}">${user.emailAddress}</a>.
+        </div>
+    </body>
+</html>

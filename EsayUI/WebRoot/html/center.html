@@ -1,0 +1,268 @@
+
+<script type="text/javascript" charset="utf-8">
+	zz.admin = {};
+	zz.admin.user = {};
+	
+	var sy = $.extend({}, sy);//2、定义全局对象方法
+	zz.admin.user.editRow = undefined;
+	/*form表单系列化成对象*/
+	sy.serializeObject = function(form) {
+		var o = {};
+
+		$.each(form.serializeArray(), function(index) {
+			if (o[this['name']]) {
+				o[this['name']] = o[this['name']] + "," + this['value'];
+			} else {
+				o[this['name']] = this['value'];
+			}
+		});
+		return o;
+	};
+	$(function() {
+
+		zz.admin.user.datagrid=$('#datagrid').datagrid({
+			url : basePath + "/user/getUsers.htm",
+			height : 300,
+			iconCls : 'icon-save',
+			pagination : true,//分页
+			pageSize : 10,
+			pageList : [ 10, 20, 30 ],//可选的每页显示数量
+			fit : true,//宽高自适应外层,外层也得有宽度，否则会不显示数据
+			fitColumns : true,//禁用横向滚动条。
+			norap : true,//表格中多内容显示折叠
+			striped : true,
+			sortOrder : 'asc',
+			remoteSort : false,//不通过远程服务器排序，默认是true。
+			//idField:'id'//跨页删除等
+			columns : [ [ {//-----开始编辑表格样式
+				title : '编号',
+				field : 'id',
+				width : 100,
+				checkbox:true
+			}, {
+				title : '姓名',
+				field : 'username',
+				width : 100,
+				sortable : true,
+				editor : {//应用editor，还要开启所在行的编辑状态:
+					type : 'validatebox',
+					options : {
+						required : true
+					}
+				}
+			}, {
+				title : '密码',
+				field : 'password',
+				width : 100,
+				editor : {
+					type : 'validatebox',
+					options : {
+						required : true
+					}
+				}
+			}, {
+				title : '创建时间',
+				field : 'createTime',
+				width : 100
+			}, {
+				title : '修改时间',
+				field : 'updateTime',
+				width : 100
+			} ] ],
+			toolbar : //也可以通过id去外部实现bar
+			[ {
+				text : '增加',
+				iconCls : 'icon-add',
+				handler : function() {
+					/*
+					 1、如果在编辑的行的变量=undefined，说明可以新增一行，开启编辑状态，并赋值给变量
+					 2、如果新添加了编辑行，变量就会有值，不能新增
+					*/
+					if(zz.admin.user.editRow != undefined){
+					
+					}else{
+					console.info("新增一行");
+					zz.admin.user.datagrid.datagrid('insertRow', {
+						index:0,
+						row:{
+							username : '',
+							password : ''	
+							}
+					});
+					/* var Rows = zz.admin.user.datagrid.datagrid('getRows');
+					console.info(Rows); */
+					zz.admin.user.datagrid.datagrid('beginEdit',0);//开启第一行，如果在最后添加，Rows.length-1的编辑状态
+					zz.admin.user.editRow = 0;
+				}
+			  }
+			}, '-', {
+				text : '删除',
+				iconCls : 'icon-remove',
+				handler : function() {
+					var row = zz.admin.user.datagrid.datagrid('getSelections');
+					if(row.length>0){
+						$.messager.confirm('提示','确认要删除么？',function(b){
+							if(b){
+								var dis=[];
+								for (var int = 0; int < row.length; int++) {
+									dis.push(row[int].id);
+								}
+								console.info(dis.join(','));
+							}
+						});
+					
+					}else{
+						$.messager.alert('提示','请选择需要删除的行！','error');
+					}
+				}
+			}, '-', {
+				text : '修改',
+				iconCls : 'icon-edit',
+				handler : function() {
+					var row = zz.admin.user.datagrid.datagrid('getSelections');
+					if(row.length == 1){
+						var rowIndex = zz.admin.user.datagrid.datagrid('getRowIndex',row[0]);
+						console.info(rowIndex);
+						if(zz.admin.user.editRow != undefined){
+							zz.admin.user.datagrid.datagrid('endEdit',zz.admin.user.editRow);
+						}
+						if(zz.admin.user.editRow == undefined){
+							zz.admin.user.datagrid.datagrid('beginEdit',rowIndex);
+							zz.admin.user.editRow=rowIndex;
+							zz.admin.user.datagrid.datagrid('unselectAll');
+						}
+					}
+				}
+			}, '-', {
+				text : '保存',
+				iconCls : 'icon-save',
+				handler : function() {//点击保存，就会关闭编辑状态，同时激活onAfterEdit事件
+					zz.admin.user.datagrid.datagrid('endEdit',zz.admin.user.editRow);
+				}
+			},'-', {
+				text : '取消编辑',
+				iconCls : 'icon-redo',
+				handler : function() {
+					zz.admin.user.editRow=undefined;
+					zz.admin.user.datagrid.datagrid('rejectChanges');
+					zz.admin.user.datagrid.datagrid('unselectAll');
+				}
+			}],
+			onAfterEdit:function(rowIndex,rowData,changes){
+				console.info("结束编辑");
+				console.info(rowData);
+				zz.admin.user.editRow = undefined;
+				/*
+				获取改变的是修改,还是新增,还是删除
+				*/
+				var inserted = zz.admin.user.datagrid.datagrid('getChanges','inserted');
+				var updated = zz.admin.user.datagrid.datagrid('getChanges','updated');
+				if(inserted.length !=0){
+					console.info("这是新增");
+					$.ajax({
+						type:'post',
+						url:basePath+'/user/regist.htm',
+						dataType:'json',
+						data:rowData,
+						success:function(result){
+							if(result.status=="1"){
+								 $.messager.alert('提示',result.msg);
+							}else if (result.status=="0"){
+								 $.messager.alert('提示','保存成功！');
+							}
+						},
+						error:function(){
+							$.messager.alert('提示','系统错误，新增失败');
+							zz.admin.user.datagrid.datagrid('rejectChanges');
+						}
+					});
+				}
+				if(updated.length !=0){
+					console.info("这是修改");
+					$.ajax({
+						type:'post',
+						url:basePath+'/user/updateUser.htm',
+						dataType:'json',
+						data:rowData,
+						success:function(result){
+							if(result.status=="1"){
+								 $.messager.alert('提示',result.msg);
+							}else if (result.status=="0"){
+								 $.messager.alert('提示',result.msg);
+							}
+						},
+						error:function(){
+							$.messager.alert('提示','系统错误，新增失败');
+							zz.admin.user.datagrid.datagrid('rejectChanges');
+						}
+					});
+				}
+				
+				
+			},
+			onDblClickRow:function(rowIndex,rowData){//双击编辑
+				console.info(zz.admin.user.editRow);
+				if(zz.admin.user.editRow != undefined){
+					//如果双击时还有在编辑的，那就结束编辑
+					zz.admin.user.datagrid.datagrid('endEdit',zz.admin.user.editRow);
+				}
+				if(zz.admin.user.editRow == undefined){
+					zz.admin.user.datagrid.datagrid('beginEdit',rowIndex);
+					zz.admin.user.editRow=rowIndex;
+				}
+				
+			},
+			loadMsg : '数据加载中,请稍候......'
+		});
+	});
+	zz.admin.user.serachForm = $('#searchForm').form();
+	zz.admin.user.search = function() {
+		console.info(sy.serializeObject(zz.admin.user.serachForm));
+		$('#datagrid').datagrid('load',
+				sy.serializeObject(zz.admin.user.serachForm)//表单系列化成对象，注意，此时没填的值不少null，而是“”，注意后台判断
+		/*{
+			username:$('#searchForm').find('[name=username]').val(),
+			createtimeStart:$('#searchForm').find('[name=createtimeStart]').val(),
+			createtimeEnd:$('#searchForm').find('[name=createtimeEnd]').val() 
+		}*/);
+	};
+	zz.admin.user.cleanSearch = function() {
+		$('#datagrid').datagrid('load', {});//同时后刷新过滤条件
+		zz.admin.user.serachForm.find('input').val('');
+	}
+</script>
+<div id="" class="easyui-layout" data-options="fit:true,border:false">
+	<div data-options="region:'north',title:'查询条件',border:false"
+		style="height: 160px; overflow: hidden;">
+		<form id="searchForm">
+			<table class="table table-hover table-condensed">
+				<tr>
+					<th>登录名</th>
+					<td><input name="username" placeholder="可以模糊查询登录名"
+						class="span2" /></td>
+				</tr>
+				<tr>
+					<th>创建时间</th>
+					<td><input name="createtimeStart" class="easyui-datetimebox"
+						style="width:200px" editable="false" />至 <input
+						name="createtimeEnd" class="easyui-datetimebox"
+						style="width:200px" editable="false" /></td>
+				</tr>
+				<tr>
+					<th>修改时间</th>
+					<td><input name="updatetimeStart" class="easyui-datetimebox"
+						style="width:200px" editable="false" />至 <input
+						name="updatetimeEnd" class="easyui-datetimebox"
+						style="width:200px" editable="false" /> <a
+						href="javascript:void(0);" class="easyui-linkbutton"
+						onclick="zz.admin.user.search();">查询</a> <a
+						href="javascript:void(0);" class="easyui-linkbutton"
+						onclick="zz.admin.user.cleanSearch();">清空</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div data-options="region:'center',title:'用户管理',border:false">
+		<table id="datagrid" fit="true" border="false"></table>
+	</div>
+</div>

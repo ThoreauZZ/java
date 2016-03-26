@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====根节点:设置为调试模式-自动重扫描配置文件-间隔为30秒 -->
+<configuration  scan="true" scanPeriod="30 seconds" debug="true">
+	<contextName>EsayUI_logback</contextName>
+	
+	<!-- ====定义常量 ，下面可以引用 -->
+	<property name="LOG_HOME" value="E:/LOG" /><!-- log目录 -->
+	<property name="BACKUP_HOME" value="${LOG_HOME}/backup" /><!-- 日志备份目录 -->
+	
+	<!-- ====定义控制台输出 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- ==定义过滤器 相比logger内定义优先级高 
+			<filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+			 <level>warn</level> 
+			</filter> 
+		-->
+		<!-- ==定义日志格式 -->
+		<encoder>
+			<pattern>
+				%date{yyyy-MM-dd HH:mm:ss} %level [%thread] %10logger[%file:%line] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 定义指定文件名称的输出 此处设定的文件名称是动态设置的 即 每天生成一个文件 用于记录当天的文件信息 -->
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${LOG_HOME}/EsayUI/EsayUI.log</file>
+		<encoder>
+			<pattern>
+				%date{yyyy-MM-dd HH:mm:ss} %level [%thread] %10logger[%file:%line] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 每日滚动并压缩 -->
+	<appender name="DAILY_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/EsayUI/EsayUI.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${BACKUP_HOME}/%d{yyyy-MM-dd-HH-mm}/time_base_rolling.%d{yyyyMMdd_HHmm}.log.zip
+			</FileNamePattern>
+			<MaxHistory>3</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<!--==格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符 -->
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- ====分级别打印到不同日志文件 -->
+	<appender name="errorFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/EsayUI/error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.error.log.zip</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss} - %level[%thread] %10logger[%file:%line] - %msg%n</pattern>
+		</encoder>
+		<!-- 过滤 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>  
+
+	<!-- 单独对指定的日志设定级别，使该日志对象输出地日志级别限定在：“INFO”级别，不受跟级别的限制 目标可以是类或者包 -->
+	<!-- <logger name="com.ztgame.logback.test" level="info"> -->
+	<!-- <appender-ref ref="SIZE_BASE" /> -->
+	<!-- </logger> -->
+
+	 <!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.opensymphony" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.slf4j" level="WARN"/>
+    <logger name="ch.qos.logback" level="ERROR"/>
+    
+	<!-- 
+	<root level="error">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="DAILY_LOG" />
+		<appender-ref ref="SIZE_BASE" />
+	</root>
+	 -->
+	  <root>  
+        <appender-ref ref="CONSOLE"  level="INFO"/>  
+        <appender-ref ref="errorFileLog"  level="ERROR" />  
+        <appender-ref ref="FILE"  level="INFO" />  
+    </root>  
+	
+</configuration>

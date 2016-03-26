@@ -1,0 +1,23 @@
+<Persons>
+	<Message>FreeMarker Template build XML--->author:二道岩</Message>
+	<Persons>	
+		<Person>	
+			<Name>二道岩</Name>
+			<Location>贵州</Location>
+		</Person>
+		<Person>	
+			<Name>二道岩</Name>
+			<Location>四川</Location>
+		</Person>
+	</Persons>
+	<Books>
+		<Book>
+			<bookName>聊斋志异</bookName>
+			<bookPrice>22</bookPrice>
+		</Book>
+		<Book>
+			<bookName>棋王</bookName>
+			<bookPrice>32</bookPrice>
+		</Book>
+	</Books>
+</Persons>

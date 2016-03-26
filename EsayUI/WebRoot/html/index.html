@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">	
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/icon.css" type="text/css">
+	<link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/default/easyui.css" type="text/css">
+	<script type="text/javascript" src="../js/global.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		var loginAndRegDialog;//全局变量。
+		$(function(){
+		loginAndRegDialog = $('#loginAndRegDialog').dialog({//--EsayUI--使用dialog对话窗作为登陆窗口
+				closable : false,//去掉关闭按钮
+				modal:true,//背景变灰
+				buttons:[
+				         {text:'注册',handler:function(){
+						console.info("用户注册");
+						if($('#loginRegForm').form('validate')){//如果不是esayui提交方式，ajax可以先这么写，不然表单验证不生效。
+							$.ajax({
+								type:'post',
+								url:basePath+"/user/regist.htm",
+								data:$('#loginRegForm').serialize(),//--jQuery--把表单内容字符串话，使下面的表单数据简单化
+									/*{
+									username:$('#loginRegForm input[name=username]').val(),
+									password:$('#loginRegForm input[name=password]').val()},
+									*/
+								cache:false,
+								dataType:'json',
+								success:function(result){
+									if(result.status=="0"){//成功
+					                      //返回登录状态
+					                       $.messager.alert('提示',result.msg);
+					                      $("#back").click();//触发返回按钮的单击
+					                   }else if(result.status=="1"){//用户名已注册过
+					                	   $.messager.alert('提示',result.msg);//--EsayUI--消息组件
+					                      $("#warning_1").show();//显示提示信息的div
+					                   }
+								},
+								error:function(){
+									$.messager.alert('系统错误，请重试');
+					            }
+							});
+					}
+				}},
+				         {text:'登陆',handler:function(){
+				        	 console.info("用户登陆");
+				        	 loginRegForm.submit();
+				         }}
+				         ]//--EsayUI--使用图标数组
+			});//使用dialog作为用户登陆界面
+			
+		loginRegForm=$('#loginRegForm').form({
+   		 url:basePath+"/user/login.htm",
+   		 success:function(result){
+   			console.info(result);
+   			result=eval("("+result+")");
+   			console.info(result);
+   			 if(result.status=="0"){
+   				 $.messager.alert('提示',result.msg);
+   				// loginAndRegDialog.dialog('close');//隐藏dialog
+   			 }else{
+   				 $.messager.alert('提示',result.msg);
+   			 }
+   		 }
+   		 
+   	 });
+
+});
+	</script>
+
+</head>
+<body> 
+	<div id="loginAndRegDialog"  title="用戶登陆"  style="width:300px;height:200px;padding:10px">
+       <form id="loginRegForm" method="post">
+			<table>
+				<tr>
+					<th align="right">用户名:</th>
+					<td><input name="username" class="esayui-validatebox easyui-validatebox textbox" required="true"/></td>
+						<!--/--EsayUI--验证组件class="esayui-validatebox easyui-validatebox textbox" 
+						required="true" validType='email'其他 validType可以查aip或者自己扩展-->
+				</tr>
+				<tr>
+					<th align="right">密码:</th>
+					<td><input name="password" type="password" class="esayui-validatebox easyui-validatebox textbox" required="true"/></td>
+				</tr>
+			</table>
+		</form>           
+    </div>
+</body>
+</html>

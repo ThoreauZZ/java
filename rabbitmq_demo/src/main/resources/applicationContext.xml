@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+        http://www.springframework.org/schema/rabbit 
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/context/spring-tx-3.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        ">
+	<!-- xmlns:命名空间，类似java中的package -->
+	<!-- xsi:schemaLocation:两部分构成，xmlns xsd地址 -->
+
+	<context:component-scan base-package="com.henry.zhao.*" />
+	<mvc:annotation-driven />
+	<!-- 定义ViewResolver -->
+	<bean id="viewResolver" 
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/">
+		</property>
+		<property name="suffix" value=".jsp">
+		</property>
+	</bean>
+
+	<!-- 引入配置文件 -->
+	<context:property-placeholder location="classpath:general.properties" />
+
+	<!-- 创建连接工厂 -->
+	<rabbit:connection-factory id="rabbitConnectionFactory"
+		host="${rabbit.server.ip}" port="${rabbit.server.port}"
+		channel-cache-size="15" username="${rabbit.server.username}" password="${rabbit.server.password}" />
+
+	<!-- 队列声明 -->
+	<rabbit:queue name="${rabbit.queue.myqueue}" />
+
+	<!-- 消息的json转换 -->
+	<bean id="jsonMessageConverter"
+		class="org.springframework.amqp.support.converter.JsonMessageConverter" />
+
+	<!-- 模板 -->
+	<rabbit:template id="amqpTemplate" connection-factory="rabbitConnectionFactory"
+		message-converter="jsonMessageConverter" />
+
+	<!-- 事务管理 -->
+	<bean id="rabbitTxManager"
+		class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"
+		p:connectionFactory-ref="rabbitConnectionFactory" />
+
+	<!-- 监听器-->
+	<rabbit:listener-container concurrency="1"
+		connection-factory="rabbitConnectionFactory" message-converter="jsonMessageConverter">
+		<rabbit:listener ref="myQueueListen" method="handleMessage"
+			queue-names="${rabbit.queue.myqueue}" />
+	</rabbit:listener-container>
+	
+</beans>

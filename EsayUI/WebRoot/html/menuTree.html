@@ -1,0 +1,54 @@
+<script type="text/javascript" charset="utf-8">
+	$(function(){
+		
+		$('#menu_tree').tree({//有个插件叫ztree，可以不用递归全部查出tree
+			url:basePath+'/menu/getMenu.htm',
+			lines:true,
+			parentField : 'pid',
+			onClick : function(node) {
+				if (node.attributes && node.attributes.url) {
+
+					var url;
+					if (node.attributes.url.indexOf('/') == 0) {/*如果url第一位字符是"/"，那么代表打开的是本地的资源*/
+						url = '${pageContext.request.contextPath}' + node.attributes.url;
+						if (url.indexOf('/druidController') == -1) {/*如果不是druid相关的控制器连接，那么进行遮罩层屏蔽*/
+							parent.$.messager.progress({
+								title : '提示',
+								text : '数据处理中，请稍后....'
+							});
+						}
+					} else {/*打开跨域资源*/
+						url = node.attributes.url;
+					}
+					addTab({
+						url : url,
+						title : node.text,
+						iconCls : node.iconCls
+					});
+				}
+			},
+			onLoadSuccess:function(node,data){
+				var t = $(this);
+				if(data){
+					$(data).each(function(index,d){
+						if(this.state == 'closed'){
+							t.tree('expandAll');
+						}
+					});
+				}
+			}
+		});
+	});
+	
+	
+</script><div title="Title2" data-options="iconCls:'icon-reload',selected:true" style="padding:10px;">content2</div>
+
+
+<div id="aa" class="easyui-accordion" fit="true">
+	<div title="Title1" data-options="iconCls:'icon-save'"
+		style="overflow:auto;padding:10px;">
+		<div id="menu_tree"></div>
+	</div>
+	
+	<div title="Title3">content3</div>
+</div>
