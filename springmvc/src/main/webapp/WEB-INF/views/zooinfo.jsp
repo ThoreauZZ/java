@@ -10,6 +10,19 @@
 		$(function(){
 			$("#update").click(function(){
 				alert("---")
+				var id=$("form input[name='id']").val();
+				var zooName=$("form input[name='zooName']").val();
+				var address=$("form input[name='address']").val();
+				debugger;
+				$.ajax({
+					url:"zoos/"+id,
+					type:"post",
+					dataType:"json",
+					data:{_method:"put","id":id,"zooName":zooName,"address":address},
+					success:function(){
+						alert("ok")
+					}
+				});
 			});
 		});
 		
