@@ -1,8 +1,15 @@
 package com.mvc.henry.entity;
 
+import javax.validation.constraints.NotNull;
+
 public class User {
+	
+	@NotNull(message="username cannot null")
 	private String username;
+	
+	@NotNull
 	private String password;
+	
 	private String addres;
 	public String getUsername() {
 		return username;

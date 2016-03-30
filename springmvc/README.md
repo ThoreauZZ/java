@@ -14,3 +14,19 @@
 ###2、@PathVariable
 	绑定 URL 占位符到入参
 	
+	
+The simplest possible @Controller
+Mapping Requests
+Obtaining Request Data
+Generating Responses
+Message Converters
+Rendering Views
+Type Conversion
+Validation
+Forms
+File Upload
+Exception Handling
+
+----
+@Valid 
+	
