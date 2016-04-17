@@ -8,7 +8,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] ="mysql://root:123456@hostname/database"
+app.config['SQLALCHEMY_DATABASE_URI'] ="mysql://root:123456@localhost:3306/flask_web"
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
@@ -24,7 +24,23 @@ def do2db():
     cur.execute(sql, ('webmaster@python.org', 'very-secret'))
     conn.commit()
     conn.close()
-
+    
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    def __repr__(self):
+        return '<Role %r>' % self.name
+    users = db.relationship('User', backref='role')
+    
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    def __repr__(self):
+        return '<User %r>' % self.username
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    
 if __name__=="__main__":
-    do2db()
+    db.create_all()
     
