@@ -1,0 +1,12 @@
+.classpath
+.project
+.settings/
+logs/
+target/
+*.class
+*.jar
+*.swp
+*.iml
+.DS_Store
+nohup.out
+dump.rdb
