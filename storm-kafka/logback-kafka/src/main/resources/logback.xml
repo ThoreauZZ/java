@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds" debug="true">
+	<appender name="KAFKA" class="com.henry.zhao.log.KafkaAppender">
+		<topic>foo</topic>
+		<brokerList>192.168.85.100:9092</brokerList>
+		<formatter class="com.henry.zhao.log.formatter.JsonFormatter">
+			<expectJson>true</expectJson>
+		</formatter>
+	</appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{mm:ss} %-5level %logger{36} >>> %msg%n</pattern>
+		</encoder>
+	</appender>
+	<logger name="kafka.producer" level="INFO"/>
+	<logger name="backtype.storm.daemon" level="INFO"/> 
+	<logger name="org.apache.storm.zookeeper" level="INFO"/>
+	<logger name="org.apache.zookeeper" level="INFO"/>
+	<logger name="storm.kafka.PartitionManager" level="INFO"/>
+	<root level="debug">
+		<appender-ref ref="KAFKA" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
