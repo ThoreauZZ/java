@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--
+  <mongo:mongo-client replica-set="172.16.69.100:27017">
+    <mongo:client-options write-concern="NORMAL" />
+  </mongo:mongo-client>
+-->
+  <mongo:mongo host="172.16.69.100" port="27017"/>
+  <!-- mongo模板类实例 -->
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg ref="mongo" />
+    <constructor-arg name="databaseName" value="student" />
+  </bean>
+
+</beans>
