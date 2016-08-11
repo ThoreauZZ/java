@@ -15,7 +15,7 @@
 		<!-- ==定义日志格式 -->
 		<encoder>
 			<pattern>
-				%date{yyyy-MM-dd HH:mm:ss} %level [%thread] %10logger[%file:%line] - %msg%n
+				X[%X{logSessionId}] [%date{yyyy-MM-dd HH:mm:ss}] [%level] [%thread] %10logger[%file:%line] - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
