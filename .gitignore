@@ -1,7 +1,7 @@
 *.iml
 *.pyc
-.settings/
+.settings
 target
 *.project
 *.class
-target
+*.classpath
