@@ -25,3 +25,8 @@ PATH=/usr/local/openresty/nginx/sbin:$PATH
 export PATH
 nginx -p `pwd`/ -c conf/nginx.conf
 ```
+
+nginx指定配置文件启动
+```
+sudo nginx -p `pwd` -c conf/nginx.conf -s reload
+```
