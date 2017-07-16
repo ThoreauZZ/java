@@ -1,0 +1,17 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.2.RELEASE'
+    id 'java'
+}
+
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile "com.github.tomakehurst:wiremock:2.6.0"
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+}
