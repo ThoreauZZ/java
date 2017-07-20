@@ -18,8 +18,9 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * 17/7/15 下午2:44.
+ *  wireMock http测试, 这里使用http
  *
- * @author zhaozhou
+ * @author thoreau
  */
 public class SampleControllerTest {
 
