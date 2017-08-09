@@ -47,7 +47,6 @@ public class SampleControllerTest {
         assertEquals(response.code(), 200);
         JSONAssert.assertEquals(restposeJson, response.body().string(), false);
 
-
         verify(1, getRequestedFor(urlEqualTo("/my/resource"))
                 .withHeader("Accept", equalTo("application/json")));
     }
