@@ -1,12 +1,16 @@
 plugins {
     id 'org.springframework.boot' version '1.5.2.RELEASE'
     id 'java'
+    id 'maven'
 }
-
 
 repositories {
     jcenter()
     mavenLocal()
+    mavenCentral()
+    maven {
+        url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
 }
 
 dependencies {
@@ -14,4 +18,26 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile "com.github.tomakehurst:wiremock:2.6.0"
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://localhost:8088/nexus/content/repositories/snapshots/") {
+                authentication(userName: "admin", password: "admin123")
+                pom.groupId = "com.thoreau"
+                pom.artifactId = "spring-boot"
+            }
+        }
+    }
+}
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
 }
