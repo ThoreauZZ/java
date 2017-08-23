@@ -5,3 +5,6 @@ target
 *.project
 *.class
 *.classpath
+*.gradle
+out
+
