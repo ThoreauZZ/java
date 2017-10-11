@@ -1,0 +1,2 @@
+docker run -d --name zookeeper --publish 2181:2181 zookeeper:3.4  
+docker run -d --name kafka --publish 9092:9092 --publish 7203:7203 --env KAFKA_ADVERTISED_HOST_NAME=192.168.99.100 --env ZOOKEEPER_IP=192.168.99.100 ches/kafka
