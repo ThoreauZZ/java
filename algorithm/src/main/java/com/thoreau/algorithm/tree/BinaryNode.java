@@ -1,5 +1,8 @@
 package com.thoreau.algorithm.tree;
 
+/**
+ * @author zhaozhou
+ */
 public class BinaryNode<T extends Comparable> {
     public T data;// 节点值
     public BinaryNode<T> left;//左子树

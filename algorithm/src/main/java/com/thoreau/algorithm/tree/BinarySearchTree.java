@@ -1,32 +1,106 @@
 package com.thoreau.algorithm.tree;
 
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * @author thoreau
+ */
 public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     private BinaryNode<T> root;
 
+    @Override
     public int size() {
-        return 0;
+        return size(root);
     }
 
+    private int size(BinaryNode<T> node) {
+        if (node == null) {
+            return 0;
+        } else {
+            return size(node.left) + 1 + size(node.right);
+        }
+
+    }
+
+    @Override
     public int height() {
-        return 0;
+        return height(root);
     }
 
+    private int height(BinaryNode<T> node) {
+        if (node == null) {
+            return 0;
+        }else {
+            int l = height(node.left);
+            int r = height(node.right);
+            return (l > r) ? l+1 : r+1;
+        }
+    }
+
+    @Override
     public String preOrder() {
-        return null;
+        return preOrder(root);
     }
 
+    private String preOrder(BinaryNode<T> subTree) {
+        StringBuilder sb = new StringBuilder();
+        if (subTree != null) {
+            sb.append(subTree.data).append(" ");
+            sb.append(preOrder(subTree.left));
+            sb.append(preOrder(subTree.right));
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String inOrder() {
-        return null;
+        return inOrder(root);
     }
 
+    private String inOrder(BinaryNode<T> subTree) {
+        StringBuilder sb = new StringBuilder();
+        if (subTree != null) {
+            sb.append(inOrder(subTree.left));
+            sb.append(subTree.data).append(" ");
+            sb.append(inOrder(subTree.right));
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String postOrder() {
-        return null;
+        return postOrder(root);
     }
 
+    private String postOrder(BinaryNode<T> subTree) {
+        StringBuilder sb = new StringBuilder();
+        if (subTree != null) {
+            sb.append(postOrder(subTree.left));
+            sb.append(postOrder(subTree.right));
+            sb.append(subTree.data).append(" ");
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String levelOrder() {
-        return null;
+        LinkedBlockingQueue<BinaryNode<T>> queue = new LinkedBlockingQueue();
+        StringBuilder sb = new StringBuilder();
+        BinaryNode<T> tree = root;
+        while (tree != null) {
+            sb.append(tree.data).append(" ");
+            if (tree.left != null) {
+                queue.add(tree.left);
+            }
+            if (tree.right != null) {
+                queue.add(tree.right);
+            }
+            tree = queue.poll();
+        }
+        return sb.toString();
     }
 
+    @Override
     public void insert(T data) {
         if (data == null) {
             throw new RuntimeException("data is null");
@@ -47,6 +121,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         return node;
     }
 
+    @Override
     public void remove(T data) {
         remove(data, root);
     }
@@ -61,17 +136,16 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         } else if (result > 0) {
             node.right = remove(data, node.right);
         } else if (node.left != null && node.right != null) {// 找到对应值
-            node.data = findMin(node.right).data;
-
-        } else if (node.left == null && node.right == null) {
-            node = null;
+            node.data = findMin(node.right).data;// 找到右子树最小值替换
+            node.right = remove(node.data, node.right);
         } else {// 只有一个子
-            return node.left == null ? node.left : node.right;
+            node =  (node.left != null) ? node.left : node.right;
         }
+        return node;
     }
 
-}
 
+    @Override
     public T findMin() {
         if (root == null) {
             throw new RuntimeException("root is null");
@@ -96,22 +170,18 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
 
+    @Override
     public T findMax() {
-        return null;
+        return findMax(root).data;
     }
 
-    public static void main(String[] args) {
-        BinarySearchTree tree = new BinarySearchTree();
-        tree.insert(5);
-        tree.insert(1);
-        tree.insert(9);
-        tree.insert(3);
-        tree.insert(2);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(10);
-        tree.insert(8);
-        tree.insert(7);
-
+    private BinaryNode<T> findMax(BinaryNode<T> node) {
+        if (node == null) {
+            throw new RuntimeException("Node is null");
+        }
+        if (node.right == null) {
+            return node;
+        }
+        return findMax(node.right);
     }
 }
