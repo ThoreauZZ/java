@@ -64,4 +64,16 @@ public class BinarySearchTreeTest {
         tree.remove(1);
         Assert.assertEquals("5 3 2 4 9 6 8 7 10 ", tree.preOrder());
     }
+    @Test
+    public void countLeavesTest() {
+        Assert.assertEquals(4,tree.countLeaves());
+    }
+    @Test
+    public void kSizeTest() {
+        Assert.assertEquals(3,tree.kSize(4));
+    }
+    @Test
+    public void compareTreeTest() {
+        Assert.assertTrue(tree.compareTree(tree.getRoot(),tree.getRoot()));
+    }
 }

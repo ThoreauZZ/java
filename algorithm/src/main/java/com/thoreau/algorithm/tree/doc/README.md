@@ -1,4 +1,7 @@
 # 二叉树
+
+[TOC]
+
 ## 概念
 >二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右子树”。二叉树的分支具有左右次序，不能颠倒。
                                     -- wikipedia
@@ -49,6 +52,7 @@ public class BinaryNode<T extends Comparable> {
 
 ### 插入
 插入思路比较简单，和节点比较，如果小于插入左边节点，如果大于插入右边，因为是从根节点开始，采用递归方式。
+
 ```java
 public void insert(T data) {
     if (data == null) {
@@ -80,7 +84,7 @@ private BinaryNode<T> insert(T data, BinaryNode<T> node) {
 ```
 
 ### 找子树中最小节点(值)
-递归左子树，左节点为空时，对应节点为最小节点
+递归左子树，左节点为空时，对应节点为最小节点,同样，最大子节点也类似。
 
 ```java
 public T findMin() {
@@ -106,6 +110,60 @@ private BinaryNode<T> findMin(BinaryNode<T> node) {
     return findMin(node.left);//(2). 不空，则递归
 }
 ```
+### 深度
+深度，即二叉树有几个层级。
+
+![](height.png)
+
+递归遍历，最子树比较后，大的值加1。如7，没有子节点，则为1，节点8左子树遍历返回值1，右子树返回0，结果是1+1=2.
+
+```java
+private int height(BinaryNode<T> node) {
+    if (node == null) {
+        return 0;
+    }else {
+        int l = height(node.left);
+        int r = height(node.right);
+        return (l > r) ? l+1 : r+1;
+    }
+}
+```
+### 节点数size
+节点数计算和深度类似，只是把左右节点累加，递归算法如下：
+
+```java
+private int size(BinaryNode<T> node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return size(node.left) + 1 + size(node.right);
+    }
+
+}
+
+```
+
+### 第K层的节点数
+![](ksize.png)
+
+如图，求3层节点数，从根节点遍历。子树为空返回0，否则一直k-1，直到k=1时返回1.再把左右遍历返回值相加。
+
+```java
+ private int kSize(BinaryNode<T> node,int k) {
+    if (node == null) {
+        return 0;
+    }
+    if (k == 1) {
+        return 1;
+    }
+    return kSize(node.left, k - 1) + kSize(node.right, k - 1);
+}
+
+```
+
+### 判断两棵二叉树是否结构相同
+递归比对节点，如果有一个节点为空，另一数的节点不为空，结构就不同
+
 
 ### 遍历
 #### 前序遍历
@@ -115,5 +173,9 @@ private BinaryNode<T> findMin(BinaryNode<T> node) {
 #### 后序遍历
 先访问左子树，再访问右子树，最后访问根节点。
 #### 层次遍历
-安装层级从左到右遍历。
+按照层级从左到右遍历。
 这种遍历方式相对复杂，因为左右没有关联关系，只能一个个节点访问，按顺序把节点存起来，再从队列中取出节点访问其子树。可以通过一个FIFO队列实现。
+
+## 
+
+

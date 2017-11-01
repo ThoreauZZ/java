@@ -8,6 +8,16 @@ public interface Tree<T extends Comparable> {
     int size();
 
     /**
+     * 叶子数
+     */
+    int countLeaves();
+
+    /**
+     * 第k层节点数
+     */
+    int kSize(int k);
+
+    /**
      * 二叉树的高度
      */
     int height();
@@ -53,5 +63,7 @@ public interface Tree<T extends Comparable> {
      * 找到最大节点
      */
     T findMax();
+
+    boolean compareTree(BinaryNode<T> node1, BinaryNode<T> node2);
 
 }

@@ -8,10 +8,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     private BinaryNode<T> root;
 
+    public BinaryNode<T> getRoot() {
+        return root;
+    }
+
     @Override
     public int size() {
         return size(root);
     }
+
+
 
     private int size(BinaryNode<T> node) {
         if (node == null) {
@@ -20,6 +26,33 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
             return size(node.left) + 1 + size(node.right);
         }
 
+    }
+    @Override
+    public int countLeaves() {
+        return countLeaves(root);
+    }
+    private int countLeaves(BinaryNode<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        if (node.left == null && node.right == null) {
+            return 1;
+        }
+        return countLeaves(node.left) + countLeaves(node.right);
+    }
+    @Override
+    public int kSize(int k) {
+        return kSize(root,k);
+    }
+
+    private int kSize(BinaryNode<T> node,int k) {
+        if (node == null) {
+            return 0;
+        }
+        if (k == 1) {
+            return 1;
+        }
+        return kSize(node.left, k - 1) + kSize(node.right, k - 1);
     }
 
     @Override
@@ -173,6 +206,16 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     @Override
     public T findMax() {
         return findMax(root).data;
+    }
+
+    @Override
+    public boolean compareTree(BinaryNode<T> node1, BinaryNode<T> node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        } else if (node1 == null || node2 == null) {
+            return false;
+        }
+        return compareTree(node1.left, node2.left) && compareTree(node1.right, node2.right);
     }
 
     private BinaryNode<T> findMax(BinaryNode<T> node) {
