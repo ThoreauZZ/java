@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * 17/10/15 下午8:12.
  *
@@ -29,51 +31,63 @@ public class BinarySearchTreeTest {
     }
     @Test
     public void preOrderTest() {
-        Assert.assertEquals("5 1 3 2 4 9 6 8 7 10 ", tree.preOrder());
+        assertEquals("5 1 3 2 4 9 6 8 7 10 ", tree.preOrder());
     }
     @Test
     public void inOrderTest() {
-        Assert.assertEquals("1 2 3 4 5 6 7 8 9 10 ", tree.inOrder());
+        assertEquals("1 2 3 4 5 6 7 8 9 10 ", tree.inOrder());
     }
     @Test
     public void postOrderTest() {
-        Assert.assertEquals("2 4 3 1 7 8 6 10 9 5 ", tree.postOrder());
+        assertEquals("2 4 3 1 7 8 6 10 9 5 ", tree.postOrder());
     }
     @Test
     public void levelOrderTest() {
-        Assert.assertEquals("5 1 9 3 6 10 2 4 8 7 ", tree.levelOrder());
+        assertEquals("5 1 9 3 6 10 2 4 8 7 ", tree.levelOrder());
     }
     @Test
     public void findMinTest() {
-        Assert.assertEquals(1, tree.findMin());
+        assertEquals(1, tree.findMin());
     }
     @Test
     public void findMaxTest() {
-        Assert.assertEquals(10, tree.findMax());
+        assertEquals(10, tree.findMax());
     }
     @Test
     public void sizeTest() {
-        Assert.assertEquals(10, tree.findMax());
+        assertEquals(10, tree.findMax());
     }
     @Test
     public void heightTest() {
-        Assert.assertEquals(5, tree.height());
+        assertEquals(5, tree.height());
     }
     @Test
     public void removeTest() {
         tree.remove(1);
-        Assert.assertEquals("5 3 2 4 9 6 8 7 10 ", tree.preOrder());
+        assertEquals("5 3 2 4 9 6 8 7 10 ", tree.preOrder());
     }
     @Test
     public void countLeavesTest() {
-        Assert.assertEquals(4,tree.countLeaves());
+        assertEquals(4,tree.countLeaves());
     }
     @Test
     public void kSizeTest() {
-        Assert.assertEquals(3,tree.kSize(4));
+        assertEquals(3,tree.kSize(4));
     }
     @Test
     public void compareTreeTest() {
         Assert.assertTrue(tree.compareTree(tree.getRoot(),tree.getRoot()));
+    }
+
+    @Test
+    public void mirrorTest() {
+        tree.mirror();
+        System.out.println(tree.inOrder());
+        assertEquals("10 9 8 7 6 5 4 3 2 1 ",tree.inOrder());
+    }
+    @Test
+    public void findLCATest() {
+        tree.mirror();
+        assertEquals(5,tree.findLCA(3,2));
     }
 }

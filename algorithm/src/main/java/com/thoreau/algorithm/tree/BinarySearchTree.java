@@ -18,7 +18,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
 
-
     private int size(BinaryNode<T> node) {
         if (node == null) {
             return 0;
@@ -27,10 +26,12 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         }
 
     }
+
     @Override
     public int countLeaves() {
         return countLeaves(root);
     }
+
     private int countLeaves(BinaryNode<T> node) {
         if (node == null) {
             return 0;
@@ -40,12 +41,13 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         }
         return countLeaves(node.left) + countLeaves(node.right);
     }
+
     @Override
     public int kSize(int k) {
-        return kSize(root,k);
+        return kSize(root, k);
     }
 
-    private int kSize(BinaryNode<T> node,int k) {
+    private int kSize(BinaryNode<T> node, int k) {
         if (node == null) {
             return 0;
         }
@@ -63,10 +65,10 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     private int height(BinaryNode<T> node) {
         if (node == null) {
             return 0;
-        }else {
+        } else {
             int l = height(node.left);
             int r = height(node.right);
-            return (l > r) ? l+1 : r+1;
+            return (l > r) ? l + 1 : r + 1;
         }
     }
 
@@ -172,7 +174,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
             node.data = findMin(node.right).data;// 找到右子树最小值替换
             node.right = remove(node.data, node.right);
         } else {// 只有一个子
-            node =  (node.left != null) ? node.left : node.right;
+            node = (node.left != null) ? node.left : node.right;
         }
         return node;
     }
@@ -208,6 +210,16 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         return findMax(root).data;
     }
 
+    private BinaryNode<T> findMax(BinaryNode<T> node) {
+        if (node == null) {
+            throw new RuntimeException("Node is null");
+        }
+        if (node.right == null) {
+            return node;
+        }
+        return findMax(node.right);
+    }
+
     @Override
     public boolean compareTree(BinaryNode<T> node1, BinaryNode<T> node2) {
         if (node1 == null && node2 == null) {
@@ -218,13 +230,31 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         return compareTree(node1.left, node2.left) && compareTree(node1.right, node2.right);
     }
 
-    private BinaryNode<T> findMax(BinaryNode<T> node) {
-        if (node == null) {
-            throw new RuntimeException("Node is null");
-        }
-        if (node.right == null) {
-            return node;
-        }
-        return findMax(node.right);
+    @Override
+    public void mirror() {
+        mirror(root);
     }
+
+    @Override
+    public T findLCA(T node1, T node2) {
+        return findLCA(root, node1, node2);
+    }
+
+    private T findLCA(BinaryNode<T> root, T node1, T node2) {
+        return null;// TODO
+    }
+
+
+    private void mirror(BinaryNode<T> node) {
+        if (node == null) {
+            return;
+        }
+        BinaryNode<T> temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+        mirror(node.left);
+        mirror(node.right);
+    }
+
+
 }

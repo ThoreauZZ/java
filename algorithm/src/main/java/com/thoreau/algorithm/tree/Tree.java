@@ -66,4 +66,13 @@ public interface Tree<T extends Comparable> {
 
     boolean compareTree(BinaryNode<T> node1, BinaryNode<T> node2);
 
+    /**
+     * 求二搜索树镜像
+     */
+    void mirror();
+
+    /**
+     * 找两个结点的最低公共祖先结点
+     */
+    T findLCA(T data1, T data2);
 }
