@@ -1,6 +1,7 @@
 package com.thoreau.algorithm.tree;
 
 
+import com.thoreau.algorithm.tree.bst.BinarySearchTree;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

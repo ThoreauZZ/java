@@ -1,4 +1,4 @@
-package com.thoreau.algorithm.tree;
+package com.thoreau.algorithm.tree.bst;
 
 public interface Tree<T extends Comparable> {
 

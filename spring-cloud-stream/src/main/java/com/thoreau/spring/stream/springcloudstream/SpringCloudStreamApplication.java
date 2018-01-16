@@ -7,8 +7,8 @@ import org.springframework.cloud.stream.messaging.Source;
 
 @SpringBootApplication
 @EnableBinding(Source.class)
-
 public class SpringCloudStreamApplication {
+
 
     public static void main(String[] args) {
         long starTime = System.currentTimeMillis();
