@@ -12,6 +12,9 @@ public class RBTree<T extends Comparable<T>> {
         this.root = node;
     }
 
+    public RBTreeNode<T> getRoot() {
+        return root;
+    }
 
     public T addNode(T value) {
         RBTreeNode<T> t = new RBTreeNode<T>(value);
@@ -20,7 +23,6 @@ public class RBTree<T extends Comparable<T>> {
 
     // insert
     private T addNode(RBTreeNode<T> node) {
-
         node.setLeft(null);
         node.setRight(null);
         node.setRed(true);// 新插入的节点为红色
@@ -50,10 +52,109 @@ public class RBTree<T extends Comparable<T>> {
 
     }
 
+    /**
+     * @param node node
+     */
     private void fixAdd(RBTreeNode<T> node) {
-//        if(node.getParent().getParent().)
+        RBTreeNode<T> parent = node.getParent();
+        RBTreeNode<T> uncle = getUncle(node);
+        while (parent != null && parent.isRed()) {
+            if (uncle == null) {
+                RBTreeNode<T> ancestor = parent.getParent();
+                if (ancestor.getLeft() == parent) {
+                    boolean isRight = node == parent.getRight();
+                    if (isRight) {
+
+                    } else {
+                        // 一条斜线，右旋
+                        rotateRight(ancestor);
+                    }
+                } else {
+
+                }
+            } else if (uncle.isRed()) {
+                // 1. 叔叔不为空
+                uncle.setRed(false);
+                parent.setRed(false);
+                parent.getParent().setRed(true);
+
+                RBTreeNode<T> newNode = parent.getParent();
+                parent = newNode.getParent();
+            }
+        }
+        getRoot().setRed(false);
+        getRoot().setParent(null);
     }
 
+    /**
+     * 右旋
+     *
+     * @param node node
+     */
+    private void rotateRight(RBTreeNode<T> node) {
+        RBTreeNode<T> left = node.getLeft();
+        if (left == null) {
+            throw new java.lang.IllegalStateException("left node is null");
+        }
+        RBTreeNode<T> parent = node.getParent();
+        node.setLeft(left.getRight());
+        setParent(left.getRight(), node);
+        left.setRight(node);
+        setParent(node, left);
+
+        if (parent == null) {
+            root.setLeft(left);
+            setParent(left, null);
+        } else {
+            if (parent.getLeft() == node) {
+                parent.setLeft(left);
+            } else {
+                parent.setRight(left);
+            }
+            setParent(left, parent);
+        }
+    }
+
+    /**
+     * 左旋
+     * @param node node
+     */
+    private void rotateLeft(RBTreeNode<T> node) {
+        // 把待替换节(n)的右节点(r)替换它
+        RBTreeNode<T> replaceNode = node.getRight();
+        node.setRight(replaceNode.getLeft());
+
+        // r.l = n
+        replaceNode.setLeft(node);
+        // n.p = r
+        node.setParent(replaceNode);
+
+        if (replaceNode.getLeft() != null) {
+            replaceNode.getLeft().setParent(node);
+        }
+        // r.p = n.p
+        replaceNode.setParent(node.getParent());
+        if (node.getParent() == null) {
+            // p = null, 就是根节点
+            root = replaceNode;
+        }else {
+            // p 重置子节点
+            if (node.getParent().getLeft() == node) {
+                node.getParent().setLeft(replaceNode);
+            }else {
+                node.getParent().setRight(replaceNode);
+            }
+        }
+
+    }
+
+    /**
+     * 寻找父节点:
+     * 跟二叉查找树一样，比对节点值大小，找到要插入的父节点
+     *
+     * @param node node
+     * @return RBTreeNode node
+     */
     public RBTreeNode<T> findParentNode(RBTreeNode<T> node) {
         RBTreeNode<T> parent = root;
         RBTreeNode<T> child = root;
@@ -71,6 +172,25 @@ public class RBTree<T extends Comparable<T>> {
             }
         }
         return parent;
+    }
+
+    /**
+     * 找到叔叔节点
+     *
+     * @param node node
+     * @return uncle
+     */
+    public RBTreeNode<T> getUncle(RBTreeNode<T> node) {
+        RBTreeNode<T> parent = node.getParent();
+        RBTreeNode<T> grandfather = parent.getParent();
+        if (grandfather == null) {
+            return null;
+        }
+        if (parent == grandfather.getLeft()) {
+            return grandfather.getRight();
+        } else {
+            return grandfather.getLeft();
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * 2018/1/15 下午11:28.
@@ -32,10 +33,14 @@ public class RBTreeTest {
    }
 
     @Test
-
-    public void findParentNode() {
+    public void findParentNodeTest() {
         RBTreeNode parentNode = rbTree.findParentNode(new RBTreeNode(3));
         assertEquals(1,parentNode.getValue());
+    }
+    @Test
+    public void findUncelTest() {
+        RBTreeNode uncle = rbTree.getUncle(rbTree.getRoot().getLeft());
+        assertNull(uncle);
     }
 
 }
