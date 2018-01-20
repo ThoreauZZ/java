@@ -12,6 +12,10 @@ public class RBTree<T extends Comparable<T>> {
         this.root = node;
     }
 
+    public RBTree() {
+
+    }
+
     public RBTreeNode<T> getRoot() {
         return root;
     }
@@ -53,24 +57,47 @@ public class RBTree<T extends Comparable<T>> {
     }
 
     /**
+     * 插入修复
      * @param node node
      */
     private void fixAdd(RBTreeNode<T> node) {
+        // 找到parent和uncle
         RBTreeNode<T> parent = node.getParent();
         RBTreeNode<T> uncle = getUncle(node);
+
         while (parent != null && parent.isRed()) {
-            if (uncle == null) {
+            if (uncle == null || !uncle.isRed()) {
+                // 祖先
                 RBTreeNode<T> ancestor = parent.getParent();
+
                 if (ancestor.getLeft() == parent) {
                     boolean isRight = node == parent.getRight();
                     if (isRight) {
-
-                    } else {
-                        // 一条斜线，右旋
-                        rotateRight(ancestor);
+                        // 左旋，就变成一条斜线
+                        rotateLeft(parent);
                     }
+                    // 一条斜线，右旋
+                    rotateRight(ancestor);
+                    if(isRight){
+                        node.setRed(false);
+                        parent=null;
+                    }else{
+                        parent.setRed(false);
+                    }
+                    ancestor.setRed(true);
                 } else {
-
+                    boolean isLeft = node == parent.getLeft();
+                    if(isLeft){
+                        rotateRight(parent);
+                    }
+                    rotateLeft(ancestor);
+                    if(isLeft){
+                        node.setRed(false);
+                        parent=null;
+                    }else{
+                        parent.setRed(false);
+                    }
+                    ancestor.setRed(true);
                 }
             } else if (uncle.isRed()) {
                 // 1. 叔叔不为空
@@ -92,42 +119,36 @@ public class RBTree<T extends Comparable<T>> {
      * @param node node
      */
     private void rotateRight(RBTreeNode<T> node) {
-        RBTreeNode<T> left = node.getLeft();
-        if (left == null) {
-            throw new java.lang.IllegalStateException("left node is null");
-        }
+        // 把待替换节(n)的左节点(l)替换它
+        RBTreeNode<T> replaceNode = node.getLeft();
         RBTreeNode<T> parent = node.getParent();
-        node.setLeft(left.getRight());
-        setParent(left.getRight(), node);
-        left.setRight(node);
-        setParent(node, left);
+        node.setLeft(replaceNode.getRight());
+        setParent(replaceNode.getRight(), node);
+        replaceNode.setRight(node);
+        setParent(node, replaceNode);
 
         if (parent == null) {
-            root.setLeft(left);
-            setParent(left, null);
+            root.setLeft(replaceNode);
+            setParent(replaceNode, null);
         } else {
             if (parent.getLeft() == node) {
-                parent.setLeft(left);
+                parent.setLeft(replaceNode);
             } else {
-                parent.setRight(left);
+                parent.setRight(replaceNode);
             }
-            setParent(left, parent);
+            setParent(replaceNode, parent);
         }
     }
 
     /**
      * 左旋
+     *
      * @param node node
      */
     private void rotateLeft(RBTreeNode<T> node) {
         // 把待替换节(n)的右节点(r)替换它
         RBTreeNode<T> replaceNode = node.getRight();
         node.setRight(replaceNode.getLeft());
-
-        // r.l = n
-        replaceNode.setLeft(node);
-        // n.p = r
-        node.setParent(replaceNode);
 
         if (replaceNode.getLeft() != null) {
             replaceNode.getLeft().setParent(node);
@@ -137,15 +158,19 @@ public class RBTree<T extends Comparable<T>> {
         if (node.getParent() == null) {
             // p = null, 就是根节点
             root = replaceNode;
-        }else {
+        } else {
             // p 重置子节点
             if (node.getParent().getLeft() == node) {
                 node.getParent().setLeft(replaceNode);
-            }else {
+            } else {
                 node.getParent().setRight(replaceNode);
             }
         }
 
+        // r.l = n
+        replaceNode.setLeft(node);
+        // n.p = r
+        node.setParent(replaceNode);
     }
 
     /**

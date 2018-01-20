@@ -14,33 +14,48 @@ import static org.junit.Assert.assertNull;
 public class RBTreeTest {
     private RBTree rbTree;
 
-   @Before
-   public void setUp() {
-       RBTreeNode root = new RBTreeNode(6);
-       root.setRed(false);
+    @Before
+    public void setUp() {
+        RBTreeNode root = new RBTreeNode(6);
+        root.setRed(false);
 
-       RBTreeNode left = new RBTreeNode(1);
-       left.setParent(root);
-       left.setRed(true);
+        RBTreeNode left = new RBTreeNode(1);
+        left.setParent(root);
+        left.setRed(true);
 
-       RBTreeNode right = new RBTreeNode(8);
-       right.setParent(root);
-       right.setRed(true);
+        RBTreeNode right = new RBTreeNode(8);
+        right.setParent(root);
+        right.setRed(true);
 
-       root.setLeft(left);
-       root.setRight(right);
-       rbTree = new RBTree(root);
-   }
+        root.setLeft(left);
+        root.setRight(right);
+        rbTree = new RBTree(root);
+    }
 
     @Test
     public void findParentNodeTest() {
         RBTreeNode parentNode = rbTree.findParentNode(new RBTreeNode(3));
-        assertEquals(1,parentNode.getValue());
+        assertEquals(1, parentNode.getValue());
     }
+
     @Test
     public void findUncelTest() {
         RBTreeNode uncle = rbTree.getUncle(rbTree.getRoot().getLeft());
         assertNull(uncle);
+    }
+
+    @Test
+    public void addTest() {
+        RBTree rbTree = new RBTree<>();
+        rbTree.addNode(1);
+        rbTree.addNode(2);
+        rbTree.addNode(3);
+        rbTree.addNode(4);
+        rbTree.addNode(5);
+        rbTree.addNode(6);
+        rbTree.addNode(7);
+        rbTree.addNode(8);
+        rbTree.addNode(9);
     }
 
 }
