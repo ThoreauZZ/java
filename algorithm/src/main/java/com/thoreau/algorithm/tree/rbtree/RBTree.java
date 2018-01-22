@@ -232,4 +232,36 @@ public class RBTree<T extends Comparable<T>> {
             }
         }
     }
+
+    public void remove(T date) {
+        RBTreeNode<T> t = new RBTreeNode<>(date);
+        remove(t);
+    }
+
+    /**
+     * 删除节点
+     * @param node
+     */
+    private void remove(RBTreeNode<T> node) {
+        RBTreeNode<T> dataRoot = getRoot();
+        RBTreeNode<T> parent = root;
+        while(dataRoot!=null){
+            int cmp = dataRoot.getValue().compareTo(node.getValue());
+            if (cmp < 0) {
+                // 遍历右子树
+                parent = dataRoot;
+                dataRoot.getRight();
+            } else if (cmp > 0) {
+                // 遍历左子树
+                parent = dataRoot;
+                dataRoot.getRight();
+            }else {
+                // 找到
+                if (dataRoot.getRight() != null && dataRoot.getLeft() != null) {
+                    // 被删除节点的"左右孩子都不为空"的情况
+                    
+                }
+            }
+        }
+    }
 }
