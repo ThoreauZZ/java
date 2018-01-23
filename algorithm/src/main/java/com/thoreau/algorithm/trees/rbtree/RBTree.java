@@ -1,4 +1,4 @@
-package com.thoreau.algorithm.tree.rbtree;
+package com.thoreau.algorithm.trees.rbtree;
 
 import java.util.LinkedList;
 
@@ -13,9 +13,7 @@ public class RBTree<T extends Comparable<T>> {
     RBTree(RBTreeNode<T> node) {
         this.root = node;
     }
-
     public RBTree() {
-
     }
 
     public RBTreeNode<T> getRoot() {
@@ -281,20 +279,25 @@ public class RBTree<T extends Comparable<T>> {
                         RBTreeNode<T> onlyChild = findOneChild(dataRoot);
                         if (isRed(onlyChild)) {
                             //1. 孩子是红色
-                            node.setValue(onlyChild.getValue());
-                            if (node.getLeft() == onlyChild) {
-                                node.setLeft(null);
+                            dataRoot.setValue(onlyChild.getValue());
+                            if (dataRoot.getLeft() == onlyChild) {
+                                dataRoot.setLeft(null);
                             } else {
-                                node.setRight(null);
+                                dataRoot.setRight(null);
                             }
                             return;
                         }
                         // 2. 没有孩子(都是叶子节点)
                         fixRemove(dataRoot);
-                        if (dataRoot.getParent().getLeft() == dataRoot) {
-                            dataRoot.getParent().setLeft(null);
+                        parent = dataRoot.getParent();
+                        if (parent == null) {
+                            root = null;
+                            return;
+                        }
+                        if (parent.getLeft() == dataRoot) {
+                            parent.setLeft(null);
                         } else {
-                            dataRoot.getParent().setRight(null);
+                            parent.setRight(null);
                         }
                         dataRoot = null;
                     }
@@ -303,6 +306,11 @@ public class RBTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * 删除修复
+     *
+     * @param node node
+     */
     private void fixRemove(RBTreeNode<T> node) {
         if (node == null || node.isRed()) {
             throw new IllegalArgumentException("Node err ... ");
@@ -315,11 +323,14 @@ public class RBTree<T extends Comparable<T>> {
             RBTreeNode<T> parent = node.getParent();
             if (parent == null) {
                 // case1: 被删除的是根节点，替换后无需处理。
-                root = null;
                 return;
             }
             boolean isLeft = parent.getLeft() == node;
             RBTreeNode<T> sibling = getSibling(node);
+            if (sibling == null) {
+                // 黑色(非叶子节点)节点才修改，但黑色节点一定有兄弟
+                throw new IllegalArgumentException("Node err ... ");
+            }
             if (isRed(sibling)) {
                 // case2:  S节点为红色
                 if (isLeft) {
@@ -327,13 +338,19 @@ public class RBTree<T extends Comparable<T>> {
                 } else {
                     rotateRight(parent);
                 }
-                parent.setRed(true);
-                parent.getParent().setRed(false);
+                switchColor(parent, parent.getParent());
+                // 此时，新节点还是原来位置
+                parent = node.getParent();
+                sibling = getSibling(node);
             }
             if (!parent.isRed() && !isRed(sibling) && !isRed(sibling.getLeft()) && !isRed(sibling.getRight())) {
                 // case3: P,S,S1,S2都是黑色
                 sibling.setRed(true);
-                fixRemove(parent);
+                if (parent.getParent() == null) {
+                    parent.setRed(false);
+                } else {
+                    fixRemove(parent);
+                }
             }
             if (isRed(parent) && !isRed(sibling.getLeft()) && !isRed(sibling.getRight())) {
                 //case4： P为红色，S（一定黑）和儿子都不是红色
@@ -344,26 +361,49 @@ public class RBTree<T extends Comparable<T>> {
                 //case5： S是黑色，S的一侧(N同侧)儿子黑色，另一侧儿子为红色
                 rotateRight(sibling);
                 switchColor(sibling, sibling.getParent());
+                sibling = getSibling(node);
             } else if (!isLeft && !isRed(sibling) && isRed(sibling.getRight()) && !isRed(sibling.getLeft())) {
                 rotateLeft(sibling);
                 switchColor(sibling, sibling.getParent());
+                sibling = getSibling(node);
             }
-            if (isLeft && !isRed(sibling) && !isRed(sibling.getLeft()) && isRed(sibling.getRight())) {
+            // case6: S是黑色，S的一侧(N同侧)儿子黑色，另一侧儿子为红色
+            if (isLeft && !isRed(sibling) && isRed(sibling.getRight())) {
                 rotateLeft(parent);
+                sibling.getRight().setRed(false);
                 switchColor(parent, sibling);
-            } else if (!isLeft && !isRed(sibling) && isRed(sibling.getLeft()) && !isRed(sibling.getRight())) {
+            } else if (!isLeft && !isRed(sibling) && isRed(sibling.getLeft())) {
                 rotateRight(parent);
+                sibling.getLeft().setRed(false);
                 switchColor(parent, sibling);
             }
         }
     }
 
-    private void switchColor(RBTreeNode<T> parent, RBTreeNode<T> sibling) {
-        boolean red = isRed(parent);
-        parent.setRed(isRed(sibling));
-        sibling.setRed(red);
+    /**
+     * 交换节点颜色
+     * @param node1 node1
+     * @param node2 node2
+     */
+    private void switchColor(RBTreeNode<T> node1, RBTreeNode<T> node2) {
+        boolean red = isRed(node1);
+        if (node1 == null) {
+            node2.setRed(false);
+            return;
+        }
+        if (node2 == null) {
+            node1.setRed(false);
+            return;
+        }
+        node1.setRed(isRed(node2));
+        node2.setRed(red);
     }
 
+    /**
+     * 获取兄弟节点
+     * @param node node
+     * @return sibling
+     */
     private RBTreeNode<T> getSibling(RBTreeNode<T> node) {
         if (node == null || node.getParent() == null) {
             return null;
@@ -374,10 +414,20 @@ public class RBTree<T extends Comparable<T>> {
         return node.getParent().getLeft();
     }
 
+    /**
+     * 节点颜色判断
+     * @param node node
+     * @return boolean
+     */
     private boolean isRed(RBTreeNode<T> node) {
         return node != null && node.isRed();
     }
 
+    /**
+     * 只有一个孩子情况，返回孩子
+     * @param node node
+     * @return child
+     */
     private RBTreeNode<T> findOneChild(RBTreeNode<T> node) {
         if (node == null) {
             throw new IllegalArgumentException("Node err ... ");
@@ -385,6 +435,11 @@ public class RBTree<T extends Comparable<T>> {
         return node.getLeft() == null ? node.getRight() : node.getLeft();
     }
 
+    /**
+     * 找到subtree最小节点
+     * @param node subTree
+     * @return node
+     */
     private RBTreeNode<T> findMin(RBTreeNode<T> node) {
         if (node == null) {
             return null;
@@ -395,11 +450,16 @@ public class RBTree<T extends Comparable<T>> {
         return node;
     }
 
-    public void printTree(RBTreeNode<T> root) {
+    /**
+     * 层次打印红黑树
+     * @return string
+     */
+    public String printTree() {
+        StringBuilder sb = new StringBuilder();
         LinkedList<RBTreeNode<T>> queue1 = new java.util.LinkedList<>();
-        LinkedList<RBTreeNode<T>> queue2 = new LinkedList<RBTreeNode<T>>();
+        LinkedList<RBTreeNode<T>> queue2 = new LinkedList<>();
         if (root == null) {
-            return;
+            return "";
         }
         queue1.add(root);
         boolean firstQueue = true;
@@ -407,11 +467,11 @@ public class RBTree<T extends Comparable<T>> {
             LinkedList<RBTreeNode<T>> q = firstQueue ? queue1 : queue2;
             RBTreeNode<T> n = q.poll();
             if (n != null) {
-                String pos = n.getParent() == null ? "" : (n == n.getParent().getLeft() ? "/left" : "/right");
+                String pos = n.getParent() == null ? "" : (n == n.getParent().getLeft() ? "/l" : "/r");
                 String pstr = n.getParent() == null ? "" : n.getParent().toString();
                 String cstr = n.isRed() ? "R" : "B";
                 cstr = n.getParent() == null ? cstr : cstr + " ";
-                System.out.print(n + "(" + (cstr) + pstr + (pos) + ")" + "\t");
+                sb.append(n + "(" + (cstr) + pstr + (pos) + ")" + " ");
                 if (n.getLeft() != null) {
                     (firstQueue ? queue2 : queue1).add(n.getLeft());
                 }
@@ -419,9 +479,10 @@ public class RBTree<T extends Comparable<T>> {
                     (firstQueue ? queue2 : queue1).add(n.getRight());
                 }
             } else {
-                System.out.println();
+                sb.append("\n");
                 firstQueue = !firstQueue;
             }
         }
+        return sb.toString();
     }
 }

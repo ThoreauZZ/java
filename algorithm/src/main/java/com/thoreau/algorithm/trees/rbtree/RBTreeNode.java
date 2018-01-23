@@ -1,4 +1,4 @@
-package com.thoreau.algorithm.tree.rbtree;
+package com.thoreau.algorithm.trees.rbtree;
 
 /**
  * 2018/1/14 下午10:27.
