@@ -55,4 +55,9 @@ public class RBTreeNode<T extends Comparable> {
     public boolean isRed() {
         return isRed;
     }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
+    }
 }
