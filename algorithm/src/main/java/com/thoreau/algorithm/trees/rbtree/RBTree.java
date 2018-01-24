@@ -13,6 +13,7 @@ public class RBTree<T extends Comparable<T>> {
     RBTree(RBTreeNode<T> node) {
         this.root = node;
     }
+
     public RBTree() {
     }
 
@@ -20,19 +21,30 @@ public class RBTree<T extends Comparable<T>> {
         return root;
     }
 
+    /**
+     * @param value
+     * @return
+     */
     public T addNode(T value) {
-        RBTreeNode<T> t = new RBTreeNode<T>(value);
+        RBTreeNode<T> t = new RBTreeNode<>(value);
         return addNode(t);
     }
 
-    // insert
+    /**
+     * 插入节点
+     *
+     * @param node node
+     * @return value
+     */
     private T addNode(RBTreeNode<T> node) {
+
+        // 新插入的节点为红色
         node.setLeft(null);
         node.setRight(null);
-        node.setRed(true); // 新插入的节点为红色
+        node.setRed(true);
 
         if (root == null) {
-            // 新插入节点为跟节点
+            // 新插入节点为根节点
             root = node;
             root.setRed(false);
             return root.getValue();
@@ -241,7 +253,7 @@ public class RBTree<T extends Comparable<T>> {
     /**
      * 删除节点
      *
-     * @param node
+     * @param node node
      */
     private void remove(RBTreeNode<T> node) {
         RBTreeNode<T> dataRoot = getRoot();
@@ -382,6 +394,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 交换节点颜色
+     *
      * @param node1 node1
      * @param node2 node2
      */
@@ -401,6 +414,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 获取兄弟节点
+     *
      * @param node node
      * @return sibling
      */
@@ -416,6 +430,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 节点颜色判断
+     *
      * @param node node
      * @return boolean
      */
@@ -425,6 +440,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 只有一个孩子情况，返回孩子
+     *
      * @param node node
      * @return child
      */
@@ -437,6 +453,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 找到subtree最小节点
+     *
      * @param node subTree
      * @return node
      */
@@ -452,6 +469,7 @@ public class RBTree<T extends Comparable<T>> {
 
     /**
      * 层次打印红黑树
+     *
      * @return string
      */
     public String printTree() {
@@ -471,7 +489,7 @@ public class RBTree<T extends Comparable<T>> {
                 String pstr = n.getParent() == null ? "" : n.getParent().toString();
                 String cstr = n.isRed() ? "R" : "B";
                 cstr = n.getParent() == null ? cstr : cstr + " ";
-                sb.append(n + "(" + (cstr) + pstr + (pos) + ")" + " ");
+                sb.append(n).append("(").append(cstr).append(pstr).append(pos).append(")").append(" ");
                 if (n.getLeft() != null) {
                     (firstQueue ? queue2 : queue1).add(n.getLeft());
                 }
