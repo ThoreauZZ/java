@@ -119,7 +119,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public String levelOrder() {
-        LinkedBlockingQueue<BinaryNode<T>> queue = new LinkedBlockingQueue();
+        LinkedBlockingQueue<BinaryNode<T>> queue = new LinkedBlockingQueue<>();
         StringBuilder sb = new StringBuilder();
         BinaryNode<T> tree = root;
         while (tree != null) {
@@ -191,17 +191,19 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * 根据输入节点作为根节点查找树中最小节点
      *
-     * @param node
-     * @return
+     * @param node node
+     * @return node
      */
     private BinaryNode<T> findMin(BinaryNode<T> node) {
         if (node == null) {
             throw new RuntimeException("Node is null");
         }
-        if (node.left == null) {// (1). 左节点空，则最小
+        if (node.left == null) {
+            // (1). 左节点空，则最小
             return node;
         }
-        return findMin(node.left);//(2). 不空，则递归
+        //(2). 不空，则递归
+        return findMin(node.left);
     }
 
 
@@ -241,9 +243,21 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
     private T findLCA(BinaryNode<T> root, T node1, T node2) {
-        return null;// TODO
+        BinaryNode<T> x = root;
+        while (x != null) {
+            int cmp1 = x.data.compareTo(node1);
+            int cmp2 = x.data.compareTo(node2);
+            if (cmp1 < 0 && cmp2 < 0) {
+                x = x.right;
+                continue;
+            } else if (cmp1 > 0 && cmp2 > 0) {
+                x = x.left;
+                continue;
+            }
+            return x.data;
+        }
+        return null;
     }
-
 
     private void mirror(BinaryNode<T> node) {
         if (node == null) {
@@ -255,6 +269,4 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         mirror(node.left);
         mirror(node.right);
     }
-
-
 }

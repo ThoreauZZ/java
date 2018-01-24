@@ -188,7 +188,7 @@ public class RBTreeTest {
         rbTree.remove(9);
         rbTree.remove(223333333);
 
-        System.out.println("rm: root");
+        System.out.println("rm:18(case1: rm root)");
         rbTree.remove(18);
         assertEquals("",rbTree.printTree());
     }
