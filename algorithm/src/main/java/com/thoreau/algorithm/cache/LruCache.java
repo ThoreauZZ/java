@@ -5,9 +5,6 @@ package com.thoreau.algorithm.cache;
  *
  * @author zhaozhou
  */
-public interface LruCache<K,V> {
-    V get(K k);
-
-    void put(K key, V value);
+public interface LruCache<K, V> extends Cache<K, V> {
 
 }
