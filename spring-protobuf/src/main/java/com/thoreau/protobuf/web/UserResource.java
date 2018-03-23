@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserResource {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @GetMapping(produces = "application/x-protobuf")
     public User getPersonProto() {

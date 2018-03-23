@@ -1,0 +1,12 @@
+syntax = "proto3";
+package com.thoreau.protobuf.vo;
+
+
+option java_package = "com.thoreau.protobuf.generated.vo";
+option java_outer_classname = "HobbyProto";
+option java_multiple_files = true;
+
+message Hobby {
+    string name = 1;
+    int32 level =2;
+}
