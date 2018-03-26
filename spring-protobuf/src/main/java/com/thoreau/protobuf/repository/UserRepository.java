@@ -19,7 +19,6 @@ public class UserRepository {
                    .setHomeAddress("123 xxx Street")
                    .addHobbies(Hobby.newBuilder().setName("basketball").build())
                    .addHobbies(Hobby.newBuilder().setName("football").build())
-//                   .setHobbies(1,Hobby.newBuilder().setName("basketball").build())
                    .addSkills(User.Skill.JAVA)
                    .addSkills(User.Skill.GOLANG)
                    .build();

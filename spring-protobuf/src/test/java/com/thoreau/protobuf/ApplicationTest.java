@@ -33,6 +33,7 @@ public class ApplicationTest {
     @Test
     public void getUserTest() {
         ResponseEntity<User> user = restTemplate.getForEntity("/user", User.class);
+        // assert
     }
 
     @Test
@@ -47,6 +48,7 @@ public class ApplicationTest {
             inputStream = response.body().byteStream();
             JsonFormat jsonFormat = new JsonFormat();
             User user = User.parseFrom(inputStream);
+            // assert
             System.out.println(jsonFormat.printToString(user));
         } finally {
             if (inputStream != null) {
