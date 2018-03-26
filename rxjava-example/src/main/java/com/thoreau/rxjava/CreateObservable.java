@@ -3,6 +3,8 @@ package com.thoreau.rxjava;
 import org.junit.Test;
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func0;
 
 import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,21 @@ public class CreateObservable {
                 .interval(1_000_000 / 60, TimeUnit.MICROSECONDS)
                 .subscribe((Long i) -> log(i));
 
+        //defer 操作符与create、just、from等操作符一样，是创建类操作符，不过所有与该操作符相关的数据都是在订阅是才生效的。
+        //注意此处defer的参数是Func0，而不是OnSubscrie
+        Observable observable = Observable.defer(new Func0<Observable<Integer>>(){
+            @Override
+            //注意此处的call方法没有Subscriber参数
+            public Observable<Integer> call(){
+                return Observable.from(new Integer[1]);
+            }
+        });
+        observable.subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer i) {
+                System.out.println("integer = [" + i + "]");
+            }
+        });
     }
     @Test
     public void coldHotTest() {
