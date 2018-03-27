@@ -1,4 +1,4 @@
-package com.thoreau.rxjava;
+package com.thoreau.rxjava.base;
 
 import org.junit.Test;
 import rx.Observable;

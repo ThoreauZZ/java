@@ -1,4 +1,4 @@
-package com.thoreau.rxjava;
+package com.thoreau.rxjava.base;
 
 /**
  * 2018/3/26 20:27.
