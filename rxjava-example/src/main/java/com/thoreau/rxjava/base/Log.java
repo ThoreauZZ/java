@@ -6,7 +6,7 @@ package com.thoreau.rxjava.base;
  * @author zhaozhou
  */
 public class Log {
-    public static void info(String msg) {
+    public static void info(Object msg) {
         System.out.println(Thread.currentThread().getName() + ": " + msg);
     }
 }

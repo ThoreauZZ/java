@@ -3,10 +3,10 @@ package com.thoreau.netflix.netflixdemo;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * 2018/3/25 下午10:56.

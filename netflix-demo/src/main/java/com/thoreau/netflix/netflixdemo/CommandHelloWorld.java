@@ -2,14 +2,15 @@ package com.thoreau.netflix.netflixdemo;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import rx.Observable;
 import rx.Observer;
 import rx.functions.Action1;
 
 import java.util.concurrent.Future;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * 2018/3/25 下午10:21.

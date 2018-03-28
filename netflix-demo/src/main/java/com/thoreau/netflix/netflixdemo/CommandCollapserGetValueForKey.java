@@ -2,16 +2,16 @@ package com.thoreau.netflix.netflixdemo;
 
 import com.netflix.hystrix.*;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
 
 /**
  * 2018/3/25 下午11:00.
