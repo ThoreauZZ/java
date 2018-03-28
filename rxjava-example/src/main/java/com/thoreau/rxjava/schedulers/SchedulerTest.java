@@ -45,6 +45,14 @@ public class SchedulerTest {
                   .subscribe(i -> Log.info("onNext : i= " + i));
         Thread.sleep(1000);
     }
+    @Test
+    public void baseTest() throws InterruptedException {
+        Observable.just("Hello","rxJava")
+                  .subscribeOn(Schedulers.io())
+                  .subscribe(System.out::println);
+
+    }
+
 
 
     @Test
