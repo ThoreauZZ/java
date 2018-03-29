@@ -11,7 +11,6 @@ import rx.Subscriber;
  *
  * @author zhaozhou
  */
-@Slf4j
 public class ObserverExample {
     @Test
     public void createTest() {
