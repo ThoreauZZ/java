@@ -18,6 +18,7 @@ public class CustomOperator {
     static <T> Observable.Operator<String, T> toStringOfOdd() {
         return new Observable.Operator<String, T>() {
             private boolean odd = true;
+
             @Override
             public Subscriber<? super T> call(Subscriber<? super String> child) {
                 return new Subscriber<T>(child) {
@@ -25,10 +26,12 @@ public class CustomOperator {
                     public void onCompleted() {
                         child.onCompleted();
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         child.onError(e);
                     }
+
                     @Override
                     public void onNext(T t) {
                         if (odd) {

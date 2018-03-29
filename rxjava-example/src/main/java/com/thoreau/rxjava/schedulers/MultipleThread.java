@@ -46,7 +46,7 @@ public class MultipleThread {
         Observable.range(0, count)
                   .subscribeOn(Schedulers.io())
                   .flatMap(i -> Observable.just(i).
-                          subscribeOn(Schedulers.from(es)).map(v -> {
+                                  subscribeOn(Schedulers.from(es)).map(v -> {
                               try {
                                   HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                                   conn.setRequestMethod("GET");
@@ -61,11 +61,83 @@ public class MultipleThread {
                                   return -1;
                               }
                           }
-                  )
-        ).observeOn(Schedulers.computation()).subscribe((Integer statusCode) -> { }, (Throwable error) -> { }, finishedLatch::countDown);
+                          )
+                  ).observeOn(Schedulers.computation()).subscribe((Integer statusCode) -> {
+        }, (Throwable error) -> {
+        }, finishedLatch::countDown);
         finishedLatch.await();
         t = (System.nanoTime() - t) / 1000000; //ms
         System.out.println("RxJavaWithFlatMap TPS: " + count * 1000 / t);
         es.shutdownNow();
+    }
+
+    @Test
+    public void time1Test() throws InterruptedException {
+        CountDownLatch finishedLatch = new CountDownLatch(1);
+        long start = System.currentTimeMillis();
+        Observable.range(0, 100)
+                  .map(item -> {
+                      try {
+                          // do something here
+                          Thread.sleep(20);
+                      } catch (InterruptedException e) {
+                          return Observable.error(e);
+                      }
+                      return item + "map";
+                  }).observeOn(Schedulers.computation()).subscribe(item -> {
+        }, (Throwable error) -> {
+        }, finishedLatch::countDown);
+        finishedLatch.await();
+        System.out.println("-------------");
+        System.out.println((System.currentTimeMillis() - start) + "");
+    }
+
+    @Test
+    public void time2Test() throws InterruptedException {
+        ExecutorService es = Executors.newFixedThreadPool(200,
+                new ThreadFactoryBuilder().setNameFormat("SubscribeOn-%d").build());
+        CountDownLatch finishedLatch = new CountDownLatch(1);
+        long start = System.currentTimeMillis();
+        Observable.range(0, 100)
+                  .subscribeOn(Schedulers.from(es))
+                  .map(item -> {
+                      try {
+                          Thread.sleep(20);
+                      } catch (InterruptedException e) {
+                          return Observable.error(e);
+                      }
+                      return item + "map";
+                  }).observeOn(Schedulers.computation()).subscribe(item -> {
+        }, (Throwable error) -> {
+        }, finishedLatch::countDown);
+        finishedLatch.await();
+        System.out.println("-------------");
+        System.out.println((System.currentTimeMillis() - start) + "");
+    }
+
+    @Test
+    public void time3Test() throws InterruptedException {
+        ExecutorService es = Executors.newFixedThreadPool(200,
+                new ThreadFactoryBuilder().setNameFormat("SubscribeOn-%d").build());
+        CountDownLatch finishedLatch = new CountDownLatch(1);
+        long start = System.currentTimeMillis();
+        Observable.range(0, 100)
+                  .flatMap(rangeItem -> Observable
+                          .just(rangeItem)
+                          .subscribeOn(Schedulers.from(es))
+                          .map(i -> {
+                              try {
+                                  Thread.sleep(20);
+                              } catch (InterruptedException e) {
+                                  return Observable.error(e);
+                              }
+                              return i + "map";
+                          }))
+                  .observeOn(Schedulers.computation()).subscribe(item -> {
+        }, (Throwable error) -> {
+        }, finishedLatch::countDown);
+        finishedLatch.await();
+        System.out.println("-------------");
+        System.out.println((System.currentTimeMillis() - start) + "");
     }
 }
