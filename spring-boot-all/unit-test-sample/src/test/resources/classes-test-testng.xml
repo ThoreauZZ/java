@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Test-class Suite" parallel="classes" thread-count="2" >
+    <test name="Test-class test" >
+        <classes>
+            <class name="com.thoreauz.bootlearn.testng.parallel.ParallelClassesTestOne" />
+            <class name="com.thoreauz.bootlearn.testng.parallel.ParallelClassesTestTwo" />
+        </classes>
+    </test>
+</suite>
