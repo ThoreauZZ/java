@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 2018/5/8 下午2:43.
+ * 2018/5/8 下午2:43. //TODO 需要完善
  *
  * @author thoreau
  * @date 2018/05/08
@@ -142,37 +142,30 @@ public class ReactiveEchoServer implements Runnable {
 
         synchronized void read() {
             try {
+
                 int numBytes = socketChannel.read(byteBuffer);
+
                 System.out.println("read(): #bytes read into 'byteBuffer' buffer = " + numBytes);
 
                 if (numBytes == -1) {
                     socketChannel.close();
                     System.out.println("read(): client connection might have been dropped!");
                 } else {
-                    ReactiveEchoServer.getWorkerPool().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            process();
-                        }
-                    });
+                    ReactiveEchoServer.getWorkerPool().execute(() -> process());
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-                return;
             }
         }
 
         void write() {
             int numBytes = 0;
-
             try {
                 numBytes = socketChannel.write(writeBuf);
                 System.out.println("write(): #bytes wirte from 'writeBuf' buffer = " + numBytes);
-
                 if (numBytes > 0) {
                     byteBuffer.clear();
                     writeBuf.clear();
-                    // Set the key's interest-set back to READ operation
                     selectionKey.interestOps(SelectionKey.OP_READ);
                     selectionKey.selector().wakeup();
                 }
