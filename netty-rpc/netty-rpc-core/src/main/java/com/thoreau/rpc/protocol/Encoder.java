@@ -3,8 +3,7 @@ package com.thoreau.rpc.protocol;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOutboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
+import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,13 +12,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author zhaozhou
  */
 @Slf4j
-public class Encoder extends ChannelOutboundHandlerAdapter {
+public class Encoder extends MessageToByteEncoder {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         if (msg instanceof RpcContext) {
-
             Object toDecodeObject;
             RpcContext rpcContext = (RpcContext) msg;
             if (((RpcContext) msg).getResponse() != null) {
@@ -41,7 +39,7 @@ public class Encoder extends ChannelOutboundHandlerAdapter {
             byteBuf.writeBytes(bytes);
 
             log.info(".....json序列化,构造byteBuf......................");
-            ctx.writeAndFlush(byteBuf, promise);
+            out.writeBytes(byteBuf);
         }
     }
 }

@@ -41,6 +41,7 @@ public class Decoder extends ByteToMessageDecoder {
             Response res = jsonMapper.readValue(body, Response.class);
             rpcContext.setResponse(res);
         }
+        in.skipBytes(in.readableBytes());
         out.add(rpcContext);
     }
 }

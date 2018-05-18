@@ -1,0 +1,18 @@
+@startuml
+Clinet -> CilentHandler: sendMsg(msg)
+activate CilentHandler
+CilentHandler->ChannelHandlerContext:writeAndFlush(buf)
+activate ChannelHandlerContext
+ChannelHandlerContext -->]: <<async requst>>
+ChannelHandlerContext->CilentHandler: return
+deactivate ChannelHandlerContext
+CilentHandler->BlockingQueue:poll(timeout)
+
+activate ChannelHandlerContext
+ChannelHandlerContext <--]: <<async response>>
+ChannelHandlerContext -> BlockingQueue:  add()
+deactivate ChannelHandlerContext
+CilentHandler <- BlockingQueue: return
+Clinet <- CilentHandler: return
+deactivate CilentHandler
+@enduml
