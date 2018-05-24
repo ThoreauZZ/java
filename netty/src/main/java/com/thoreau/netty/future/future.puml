@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+Client->AbstractClient:syncInvoke()
+activate AbstractClient
+AbstractClient->Future: << createFuture >>
+activate Future
+Future->AbstractClient: future
+deactivate Future
+AbstractClient->NettyClient:sendRequest(requestObject, future);
+NettyClient->Channel: writeAndFlush(future)
+Channel->NettyClient: return
+NettyClient->AbstractClient: return
+AbstractClient->AbstractClient:future.get()
+activate ChannelHandler
+Channel-->ChannelHandler:write()
+ChannelHandler -->] : wirteToServer
+deactivate ChannelHandler
+ChannelHandler <--  : readFromServer
+activate ChannelHandler
+ChannelHandler-->ChannelHandler: channelRead()
+ChannelHandler-->Future:set(response)
+deactivate ChannelHandler
+AbstractClient->Client:getReturn
+deactivate  AbstractClient
+@enduml
