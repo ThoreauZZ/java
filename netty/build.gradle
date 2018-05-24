@@ -8,7 +8,6 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
-
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -25,6 +24,10 @@ dependencies {
     implementation 'com.google.guava:guava:21.0'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.14.Final'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+    compile 'org.projectlombok:lombok:1.16.14'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
