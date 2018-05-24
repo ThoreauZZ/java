@@ -1,10 +1,9 @@
 package com.thoreau.netty.utils;
 
 import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
 
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,15 +15,10 @@ import java.util.concurrent.TimeUnit;
 public class Task {
     public static void main(String[] args) throws InterruptedException {
         HashedWheelTimer timer = new HashedWheelTimer(1, TimeUnit.SECONDS, 60);
-        timer.newTimeout(new TimerTask() {
-            @Override
-            public void run(Timeout timeout) throws Exception {
-                System.out.println("5 second");
-            }
-        }, 5, TimeUnit.SECONDS);
+        timer.newTimeout(timeout -> System.out.println("5 second"), 5, TimeUnit.SECONDS);
 
         Timer jdk = new Timer(true);
-        jdk.schedule(new java.util.TimerTask() {
+        jdk.schedule(new TimerTask() {
             @Override
             public void run() {
                 System.out.println("go");

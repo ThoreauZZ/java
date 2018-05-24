@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class HeartBeatsClient {
     public void connect(int port, String host) throws Exception {
-        // Configure the client.
+        // Configure the blockingqueue.
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();

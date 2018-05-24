@@ -1,4 +1,4 @@
-package com.thoreau.netty.client;
+package com.thoreau.netty.blockingqueue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.ByteBuf;

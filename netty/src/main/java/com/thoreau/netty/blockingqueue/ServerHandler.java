@@ -1,4 +1,4 @@
-package com.thoreau.netty.client;
+package com.thoreau.netty.blockingqueue;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

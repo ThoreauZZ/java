@@ -1,4 +1,4 @@
-package com.thoreau.netty.client;
+package com.thoreau.netty.blockingqueue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -45,7 +45,7 @@ public class NettyClientTest {
                 request.setRequestId(getRequestId());
                 request.setData("request data" + number);
                 Response result = handler.invoke(request);
-                System.out.println("client " + number + " received: " + result.getData());
+                System.out.println("blockingqueue " + number + " received: " + result.getData());
                 countDownLatch.countDown();
             });
         }
