@@ -29,6 +29,11 @@ dependencies {
     compile group: 'io.netty', name: 'netty-all', version: '4.1.14.Final'
     compileOnly 'org.projectlombok:lombok:1.16.20'
     apt "org.projectlombok:lombok:1.16.20"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+    compile 'org.projectlombok:lombok:1.16.14'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
