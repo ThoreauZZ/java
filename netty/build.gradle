@@ -8,6 +8,9 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
+plugins {
+    id 'net.ltgt.apt' version '0.10'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -24,6 +27,8 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:21.0'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.14.Final'
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    apt "org.projectlombok:lombok:1.16.20"
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
