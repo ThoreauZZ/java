@@ -23,14 +23,13 @@ import java.util.concurrent.Future;
 public class CaseMultiRpc {
     private ExecutorService executorService;
 
-
     @Before
     public void init() {
         executorService = Executors.newFixedThreadPool(3);
     }
 
     @Test
-    public void test() throws InterruptedException {
+    public void testTwoRpcFlatFailed() throws InterruptedException {
         Result result = new Result();
         CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -41,11 +40,11 @@ public class CaseMultiRpc {
         Flowable.just(userName, location)
                 .flatMap(flowable -> flowable.map(item -> {
                     if (item instanceof Location) {
-                        Location l = (Location) item;
+                        Location l = (Location)item;
                         result.setLocation(l.getAddress());
                         log.info("是location {}", item);
                     } else {
-                        String name = (String) item;
+                        String name = (String)item;
                         result.setName(name);
                         log.info("是String {}", item);
                     }
@@ -53,22 +52,22 @@ public class CaseMultiRpc {
                 }))
                 .subscribeOn(Schedulers.computation())
                 // 最后发起订阅才会执行flatMap
-                .subscribe( o -> {
-                    log.info("订阅结果{}",o);
+                .subscribe(o -> {
+                    log.info("订阅结果{}", o);
                     countDownLatch.countDown();
-                },e->{
-                    log.error("出现异常",e.getMessage());
+                }, e -> {
+                    log.error("出现异常", e.getMessage());
                     countDownLatch.countDown();
-                },()->{
+                }, () -> {
                     countDownLatch.countDown();
                 });
         countDownLatch.await();
-
         long l2 = System.currentTimeMillis();
-        log.info("结束，rst={},时间：{}",result,l2-l1);
+        log.info("结束，rst={},时间：{}", result, l2 - l1);
     }
+
     @Test
-    public void test2() throws InterruptedException {
+    public void testTwoRpcFlatFailedTOOk() throws InterruptedException {
         Result result = new Result();
         CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -78,36 +77,31 @@ public class CaseMultiRpc {
         List<Flowable> flowableList = new ArrayList<>();
         flowableList.add(userName);
         flowableList.add(location);
-//        RxJavaPlugins.onError(new Throwable());
         Flowable.fromIterable(flowableList)
                 .flatMap(flowable -> flowable.map(item -> {
-                    if (item instanceof Location) {
-                        Location l = (Location) item;
-                        result.setLocation(l.getAddress());
-                        log.info("是location {}", item);
-                    } else {
-                        String name = (String) item;
-                        result.setName(name);
-                        log.info("是String {}", item);
-                    }
-                    return item;
-                }))
-                .onErrorResumeNext(Flowable.just("hard"))
-                // 最后发起订阅才会执行flatMap
-                .observeOn(Schedulers.io())
-                .subscribeOn(Schedulers.computation())
-                .subscribe( o -> {
-                    log.info("订阅结果{}",o);
+                        if (item instanceof Location) {
+                            Location l = (Location)item;
+                            result.setLocation(l.getAddress());
+                            log.info("处理location {}", item);
+                        } else {
+                            String name = (String)item;
+                            result.setName(name);
+                            log.info("处理String {}", item);
+                        }
+                        return item;
+                    })// 解决异常问题
+                                             .onErrorResumeNext(Flowable.just("hard"))
+                ).subscribe(o -> {
+                    log.info("订阅结果: {}", o);
                     countDownLatch.countDown();
-                },e->{
+                }, e -> {
                     log.info("出现异常");
                     countDownLatch.countDown();
-                },()->{
-//                    countDownLatch.countDown();
+                }, () -> {
                 });
         countDownLatch.await();
         long l2 = System.currentTimeMillis();
-        log.info("结束，rst={},时间：{}",result,l2-l1);
+        log.info("结束，rst={},时间：{}", result, l2 - l1);
     }
 
     public Flowable<String> getUserName(int userId) {
@@ -125,6 +119,7 @@ public class CaseMultiRpc {
         });
         return Flowable.fromFuture(future);
     }
+
     public Flowable<Location> getLocation(int userId) {
         Future<Location> future = executorService.submit(() -> {
             log.info("异步调用地址模块");
@@ -134,15 +129,18 @@ public class CaseMultiRpc {
         });
         return Flowable.fromFuture(future);
     }
+
     @Data
     class Location {
         public Location(int code, String address) {
             this.address = address;
             this.code = code;
         }
+
         private int code;
         private String address;
     }
+
     @Data
     class Result {
         private String location;
