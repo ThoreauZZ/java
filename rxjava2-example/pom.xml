@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.thoreau</groupId>
-    <artifactId>rxjava2-example/</artifactId>
+    <artifactId>rxjava2-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>rxjava2-example/</name>
@@ -43,6 +43,18 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.1</version>
+        </dependency>
+
+        <!--rxjava2-jdbc-->
+        <dependency>
+            <groupId>com.github.davidmoten</groupId>
+            <artifactId>rxjava2-jdbc</artifactId>
+            <version>0.1-RC35</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.14.2.0</version>
         </dependency>
     </dependencies>
 

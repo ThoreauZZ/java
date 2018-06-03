@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Jun 03 22:41:10 CST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0163-c618-48c1-00000688e468 
+on database directory memory:/Users/zhaozhou/Documents/github/java/rxjava2-example/derby1 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/Users/zhaozhou/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_91-b14
+user.dir=/Users/zhaozhou/Documents/github/java/rxjava2-example
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.13.4
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

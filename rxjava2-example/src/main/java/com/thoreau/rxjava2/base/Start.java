@@ -86,6 +86,42 @@ public class Start {
     }
 
     @Test
+    public void baseObervable() {
+        // 被观察者
+        Observable<Object> observable = Observable.create(new ObservableOnSubscribe<Object>() {
+            //
+            @Override
+            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
+                System.out.println("emit a data");
+                emitter.onNext("data");
+            }
+        });
+        // 观察者
+        Observer<Object> observer = new Observer<Object>() {
+            private Disposable disposable;
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.disposable = d;
+            }
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("订阅结束....");
+                System.out.println("订阅取消"+disposable.isDisposed());
+            }
+
+            @Override
+            public void onNext(Object s) {
+                System.out.println("接收消息："+s);
+            }
+        };
+        observable.subscribe(observer);
+    }
+    @Test
     public void CreateObservable() {
         // just 最多可以支持10个参数
         Observable.just("A")
