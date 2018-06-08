@@ -36,7 +36,7 @@ public class Callable {
             @Override
             public void onError(Throwable t) { }
             @Override
-            public void onNext(Object var1) { System.out.println(var1); }
+            public void onNext(Object obj) { System.out.println("revived data: "+obj); }
         });
     }
 }
