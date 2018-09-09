@@ -19,8 +19,8 @@ class GreetingController {
     var inetAddress = InetAddress.getLocalHost()
     @GetMapping("/greeting")
     fun greeting(@RequestParam(value = "name", defaultValue = "World") name: String) : Greeting{
-        val formater = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        val time = LocalDateTime.now().format(formater);
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        val time = LocalDateTime.now().format(formatter);
         return Greeting(counter.incrementAndGet(),
                 "Hello, $name", inetAddress.hostAddress
                 , inetAddress.hostName
