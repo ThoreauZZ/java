@@ -6,6 +6,15 @@ package com.thoreau.algorithm.list;
  * @author zhaozhou
  */
 public class List {
+
+    class SingleLinkNode {
+        int val;
+        SingleLinkNode next;
+        public void setNext(SingleLinkNode next) {
+            this.next = next;
+        }
+    }
+
     class Node{
         int val;
         Node prev;
