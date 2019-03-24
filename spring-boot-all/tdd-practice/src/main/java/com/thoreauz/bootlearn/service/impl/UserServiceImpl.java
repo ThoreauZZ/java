@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMongo userMongo;
 
+    public UserServiceImpl(UserMongo userMongo) {
+        this.userMongo = userMongo;
+    }
+
+
     @Override
     public UserVO getUserByName(String name) {
         if (StringUtils.isEmpty(name)) {

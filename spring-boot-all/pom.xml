@@ -26,19 +26,6 @@
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
-            <scope>test</scope>
-        </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <version>1.5.3.RELEASE</version>
-        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -68,9 +55,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <!--<groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.2</version>-->
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat8-maven-plugin</artifactId>
                     <version>3.0-r1756463</version>
@@ -82,13 +66,4 @@
             </plugins>
         </pluginManagement>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
