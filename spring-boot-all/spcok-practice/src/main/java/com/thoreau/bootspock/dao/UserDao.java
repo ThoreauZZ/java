@@ -18,6 +18,7 @@ public class UserDao {
     public UserDO selectUserById(Long id) {
         return sqlSessionTemplate.selectOne("selectUserById", id);
     }
+
     public UserDO selectUserByNick(String nick) {
         return sqlSessionTemplate.selectOne("selectUserByNick", nick);
     }

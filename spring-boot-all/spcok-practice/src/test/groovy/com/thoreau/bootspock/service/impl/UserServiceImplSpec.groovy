@@ -15,6 +15,7 @@ import spock.lang.*
     2. userDao.select(_,"name");_匹配任意输入，如果方法前面不同，也支持。不要求mockito那样要么都使用匹配符要么都确定值
     3. 注意mock >> 希望值，不能出现两次。 如果前面出现，后续再用 1 * userDao.select(_,"name")，相当于重新Mock一次。
     4. >>> 表示每次调用返回不同结果
+    5. mock 可以返回mock值
 ''')
 @Title("测试用户服务")
 class UserServiceImplSpec extends Specification {
