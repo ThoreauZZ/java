@@ -9,8 +9,8 @@ public class FinalClass {
     public final String finalMethod() {
         return "something";
     }
-    public static  String staticMethod() {
-        return "something";
 
+    public static String staticMethod() {
+        return "something";
     }
 }

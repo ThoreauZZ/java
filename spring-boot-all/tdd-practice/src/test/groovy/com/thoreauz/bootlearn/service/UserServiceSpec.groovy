@@ -16,7 +16,11 @@ class UserServiceSpec extends Specification {
     UserMongo userMongo = Mock()
 
     def setup() {
-        userService = new UserServiceImpl(userMongo);
+//        userService = new UserServiceImpl(userMongo);
+        userService = new UserServiceImpl();
+
+        // 没有setter方法也动态加入
+        userService.userMongo = userMongo
     }
 
     def "GetUserByName"() {
@@ -29,5 +33,41 @@ class UserServiceSpec extends Specification {
         then:
         userVO.name == 'thoreau'
 
+    }
+
+    def "GetUserByName with null name"() {
+
+        when:
+        userService.getUserByName(null)
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "name is empty"
+    }
+
+    def "GetUserByName with not exist name"() {
+
+        given:
+        1 * userMongo.getUserByName('henry') >> null
+
+        when:
+        userService.getUserByName('henry')
+
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "user henry not exist"
+    }
+
+    def "private method test"() {
+        given:
+        def userDO = new UserDO("1", "thoreau", 22)
+
+        when:
+        def userVO = userService.converToVO(userDO)
+
+        then:
+        assert userVO.id == '1'
+        assert userVO == userDO
     }
 }

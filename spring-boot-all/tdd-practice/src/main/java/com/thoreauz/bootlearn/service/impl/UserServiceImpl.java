@@ -35,4 +35,15 @@ public class UserServiceImpl implements UserService {
         }
         return new UserVO(userDO.getId(), userDO.getName(), userDO.getAge());
     }
+
+    private UserVO converToVO(UserDO userDO) {
+        if (userDO == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        userVO.setId(userDO.getId());
+        userVO.setName(userDO.getName());
+        userVO.setAge(userDO.getAge());
+        return userVO;
+    }
 }

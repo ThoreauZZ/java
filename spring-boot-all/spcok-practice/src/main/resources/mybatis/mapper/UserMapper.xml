@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.erdaoya.springcloud.userDO.mapper.UserMapper">
+    <select id="selectUserById" parameterType="long" resultType="userDO">
+        SELECT id,nick,gender FROM userDO WHERE id = #{id}
+    </select>
+    <select id="selectUserByNick" parameterType="long" resultType="userDO">
+        SELECT id,nick,gender FROM userDO WHERE nick = #{nick}
+    </select>
+    <insert id="insertUser" parameterType="userDO">
+        INSERT INTO userDO VALUES(#{id},#{nick},#{email},#{gender},now(),now());
+    </insert>
+</mapper>
