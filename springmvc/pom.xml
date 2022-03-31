@@ -8,7 +8,7 @@
 	<name>springmvc Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<springframework>4.2.0.RELEASE</springframework>
+		<springframework>5.3.18</springframework>
 	</properties>
 	<dependencies>
 		<!-- servlet -->
