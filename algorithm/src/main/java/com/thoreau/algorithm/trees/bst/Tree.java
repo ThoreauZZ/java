@@ -75,4 +75,5 @@ public interface Tree<T extends Comparable> {
      * 找两个结点的最低公共祖先结点
      */
     T findLCA(T data1, T data2);
+
 }

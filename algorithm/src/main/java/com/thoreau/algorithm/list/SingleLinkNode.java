@@ -61,21 +61,4 @@ public class SingleLinkNode {
         head.next = null;
         return reverse;
     }
-    public SingleLinkNode merge(SingleLinkNode node1,SingleLinkNode node2) {
-
-        // 挑出
-        if (node1 == null) {
-            return node2;
-        }
-        if (node2 == null) {
-            return node1;
-        }
-        // 入口
-        SingleLinkNode singleLinkNode = merge(node1.next, node2.next);
-        if (node1.value > node2.value) {
-            merge()
-        }
-        return singleLinkNode;
-
-    }
 }
